@@ -22,19 +22,44 @@ perfil, as notas preparadas e **a primeira nota do dia escrita**.
 
 ---
 
-## Antes de falar: olhe a pasta atual
+## Antes de falar: decida a pasta-destino
 
-- **Já existe `.panda/PERFIL.md`?** O setup já foi feito. Diga o que já está configurado, pergunte
-  se ela quer continuar de onde parou, e pule pra primeira etapa que ainda falta. Não recomece.
-- **A pasta tem notas `.md` mas não tem `.panda/`?** Ela já tem notas próprias. Vá pro roteiro
-  normal, mas na etapa de preparar avise que vai trabalhar nas notas que já existem, e **adapte-se
-  ao formato dela** em vez de criar estrutura por cima.
-- **A pasta está vazia?** É o caso normal. Siga o roteiro.
-- `$ARGUMENTS` com "refazer" → confirme que o perfil atual será substituído (as notas nunca são
-  apagadas) e recomece.
+Rode `ls -a` na pasta atual e classifique, **nesta ordem**:
 
-Trabalhe **sempre na pasta atual**. Nunca escreva fora dela. Se ela pedir outra pasta, crie, e
-peça pra ela abrir o Panda lá (`cd <pasta>` e depois `opencode`) e chamar `/setup` de novo.
+| O que você vê | Destino | O que fazer |
+|---|---|---|
+| existe `.panda/PERFIL.md` | a pasta atual | o setup já foi feito. Diga o que já está configurado, pergunte se ela quer continuar de onde parou, e pule pra primeira etapa que falta. **Não recomece.** |
+| existe algum `.md` (fora `README.md`) | a pasta atual | ela já tem notas próprias. Avise que você vai trabalhar nelas e **adapte-se ao formato dela** em vez de criar estrutura por cima |
+| a pasta está vazia, ou só tem arquivos ocultos | a pasta atual | caso normal, siga direto |
+| **qualquer outra coisa** | **uma pasta nova** | veja abaixo |
+
+O último caso é o mais comum com quem está começando: ela abriu o Panda na pasta pessoal dela,
+cheia de `Downloads`, `Documentos`, fotos. **Nunca despeje as notas ali no meio.** Depois do nome
+(mensagem 1), faça uma pergunta prática a mais:
+
+> "Antes da gente continuar, uma coisa prática: vi que essa pasta já tem outras coisas suas, e eu
+> não quero misturar. Posso criar uma pasta só pras suas notas, em `~/Panda`?"
+
+Aceite o lugar que ela escolher. **Não pare a entrevista** — siga normalmente; é só o destino dos
+arquivos que muda.
+
+Duas regras sobre esse caminho:
+
+- **Prefira uma pasta dentro da pasta atual.** Se ela está na pasta pessoal dela, `~/Panda` já é
+  isso. Escrever fora da pasta atual esbarra em pedido de permissão e trava a conversa no pior
+  momento — bem quando você ia mostrar o resultado.
+- **Use o caminho exatamente como ela escreveu**, e sempre relativo à pasta atual. Se ela disser
+  `minhas-notas`, o destino é `minhas-notas/` aqui dentro — nunca `/minhas-notas`, que é outro
+  lugar do sistema. Perder o ponto ou a barra mudam a pasta inteira.
+
+### A pasta-destino manda em tudo
+
+Daqui em diante, **todo** caminho deste comando — `.panda/`, `AGENTS.md`, `Diário/`, `Dados/`,
+`Templates/` — é relativo à pasta-destino, não à pasta atual. Nunca escreva fora dela.
+
+Se a pasta-destino **não for** a pasta atual, é a mensagem 7 que resolve isso: você conta pra ela
+que a partir de agora é lá que o Panda abre. Não peça pra ela reabrir no meio da conversa — a
+entrevista inteira acontece aqui, e só o "como abrir amanhã" muda.
 
 ---
 
@@ -135,8 +160,10 @@ Se ela não quiser escrever agora, tudo bem — diga que é só chamar `/journal
 
 No máximo cinco linhas:
 
-- como te chamar todo dia: `cd <pasta>` e depois `opencode` — porque de outro lugar você não acha
-  as notas dela;
+- como te chamar todo dia: `cd <pasta-destino>` e depois `opencode` — porque de outro lugar você
+  não acha as notas dela. **Se a pasta-destino for diferente de onde ela está agora, esse é o
+  ponto mais importante da mensagem**: diga o caminho exato, e que abrir de outro lugar faz você
+  não encontrar nada;
 - três comandos, quatro palavras cada: `/journal`, `/plan`, e `/ajustar` pra mudar qualquer coisa
   em você;
 - que o perfil vai crescendo sozinho conforme ela te conta as coisas.
