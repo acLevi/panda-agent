@@ -1,0 +1,11 @@
+{
+  "idioma": "pt-BR",
+  "obsidian": false,
+  "modulos": {
+    "diario": true,
+    "planejamento": true,
+    "habitos": true,
+    "revisao": true
+  },
+  "modelo_sugerido": "opencode/big-pickle"
+}

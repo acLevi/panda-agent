@@ -1,0 +1,10 @@
+{
+  "name": "opencode-panda",
+  "version": "0.1.0",
+  "description": "Panda — assistente pessoal de IA para o OpenCode, que trabalha nas suas próprias notas em markdown",
+  "type": "module",
+  "main": "plugin/index.js",
+  "exports": { ".": "./plugin/index.js" },
+  "files": ["plugin", "core"],
+  "license": "MIT"
+}
