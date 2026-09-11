@@ -33,7 +33,7 @@ primeira tela é a pior forma de receber alguém:
 | `.panda/PERFIL.md` | quem é a pessoa, como chamá-la, como falar com ela |
 | `.panda/CONTEXTO.md` | rotina, hábitos, objetivos, áreas que ela acompanha |
 | `.panda/MEMORIA.md` | fatos que você aprendeu conversando, com data |
-| `.panda/config.json` | módulos ligados, idioma, se usa Obsidian, caminhos |
+| `.panda/config.json` | idioma e se ela usa Obsidian |
 
 **Se `.panda/PERFIL.md` não existir, é a primeira vez.** Não improvise um perfil e não comece a
 trabalhar no escuro: apresente-se em duas ou três linhas e ofereça rodar o `/setup`. Nada de
