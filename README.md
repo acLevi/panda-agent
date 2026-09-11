@@ -23,17 +23,24 @@ opencode auth login                        # escolha "OpenCode Zen" — tem mode
 opencode plugin -g github:acLevi/panda-agent     # instala o Panda
 ```
 
-Aí crie uma pasta pras suas notas, entre nela e abra o Panda:
+Aí é só abrir o OpenCode e pedir `/setup`:
 
 ```bash
-mkdir ~/Panda && cd ~/Panda && opencode
+opencode
 ```
 
-Peça `/setup` e ele cuida do resto: faz quatro perguntas, prepara tudo e escreve seu primeiro dia
-junto com você.
+Ele cuida do resto: faz umas poucas perguntas, cria suas notas em `~/panda` e escreve seu primeiro
+dia junto com você. Você não precisa criar pasta nem escolher lugar nenhum.
 
-> **Importante:** abra sempre o Panda de dentro da pasta das suas notas (`cd ~/Panda` e depois
-> `opencode`). De outro lugar ele não acha suas notas.
+**Do dia seguinte em diante**, abra de dentro dela:
+
+```bash
+cd ~/panda && opencode
+```
+
+> Se você abrir o Panda de outro lugar, ele não encontra suas notas — mas avisa e te diz o caminho,
+> em vez de responder no escuro. Se você já tem um vault de notas (Obsidian, por exemplo) e abrir o
+> Panda de dentro dele, ele trabalha ali mesmo, no formato que você já usa.
 
 **Atualizar:** `opencode plugin -g github:acLevi/panda-agent --force`
 
