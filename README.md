@@ -1,6 +1,6 @@
 # 🐼 Panda
 
-Um assistente pessoal de IA que conversa com você e guarda o seu dia a dia em notas que são
+Um agente assistente pessoal de IA para o [OpenCode](https://opencode.ai) que conversa com você e guarda o seu dia a dia em notas que são
 **suas** — arquivos de texto comuns, no seu computador, que você pode abrir e editar com ou sem
 ele.
 
@@ -20,7 +20,7 @@ Você precisa do [OpenCode](https://opencode.ai) instalado. Depois, três comand
 
 ```bash
 opencode auth login                        # escolha "OpenCode Zen" — tem modelos gratuitos
-opencode plugin -g github:<user>/panda     # instala o Panda
+opencode plugin -g github:acLevi/panda-agent     # instala o Panda
 ```
 
 Aí crie uma pasta pras suas notas, entre nela e abra o Panda:
@@ -35,7 +35,7 @@ junto com você.
 > **Importante:** abra sempre o Panda de dentro da pasta das suas notas (`cd ~/Panda` e depois
 > `opencode`). De outro lugar ele não acha suas notas.
 
-**Atualizar:** `opencode plugin -g github:<user>/panda --force`
+**Atualizar:** `opencode plugin -g github:acLevi/panda-agent --force`
 
 ## O que dá pra pedir
 
@@ -88,44 +88,3 @@ do vault dela.
 **2. O `plugin/index.js` nunca contém cópia de prompt.** Ele lê os `.md` em tempo de execução. Se
 o prompt for duplicado dentro do JS, o modo de desenvolvimento e o de distribuição passam a
 entregar coisas diferentes.
-
-## Desenvolvimento
-
-Symlink em vez de plugin — editar um `.md` tem efeito imediato, sem reinstalar:
-
-```bash
-ln -s ~/Projects/panda-agent/core/agent/panda.md ~/.config/opencode/agent/panda.md
-for c in setup journal plan progress review habitos ajustar; do
-  ln -s ~/Projects/panda-agent/core/command/$c.md ~/.config/opencode/command/$c.md
-done
-```
-
-Não use symlink e plugin na mesma máquina — o agente ficaria definido duas vezes.
-
-## Testar sem TUI
-
-`opencode run` **não expande barra-comando** — ele passa `/setup` como texto literal. Injete o
-corpo do comando, que é o que a TUI faz:
-
-```bash
-opencode run --agent panda "$(sed '1{/^---$/!q};1,/^---$/d' core/command/setup.md)"
-opencode run -c "resposta do usuário"     # continua a conversa
-```
-
-Pra testar o plugin isolado do seu `~/.config/opencode`:
-
-```bash
-XDG_CONFIG_HOME=/tmp/xdg opencode debug config
-```
-
-## Modelo
-
-Funciona com os gratuitos do OpenCode Zen. Testado de ponta a ponta com `opencode/big-pickle`.
-
-Dois cuidados que os modelos gratuitos exigem, e que já estão resolvidos no core:
-
-- **Vazamento de idioma.** Num teste inicial o modelo respondeu em português com uma frase em
-  chinês no meio. A regra de idioma está no topo do prompt do agente por causa disso.
-- **Conta errada.** O modelo montou uma tabela de hábitos sem errar um marcador e ainda assim
-  somou o total errado. Onde há contagem, o core coleta e soma **por comando de shell**
-  (`grep -c`, `awk`) e deixa pro modelo só a apresentação.
