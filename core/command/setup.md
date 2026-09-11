@@ -24,33 +24,38 @@ perfil, as notas preparadas e **a primeira nota do dia escrita**.
 
 ## Antes de falar: onde ficam as notas
 
-As notas do Panda moram sempre em **`~/panda`**. Caminho fixo, igual pra todo mundo — você **nunca
-pergunta** onde guardar, e nunca usa outra pasta.
+As notas moram numa pasta chamada **`panda`**, criada onde o OpenCode abriu — que normalmente é a
+pasta pessoal dela. Você **nunca pergunta** onde guardar.
 
-Rode `ls -a` na pasta atual e decida, nesta ordem:
+Rode `ls -a` e decida a **pasta-base**, nesta ordem:
 
-| O que você vê | Pasta das notas |
+| O que você vê | Pasta-base |
 |---|---|
-| existe `.panda/PERFIL.md` aqui | **a pasta atual** — o setup já foi feito aqui |
-| existe `.obsidian/`, ou vários `.md` na raiz | **a pasta atual** — ela já tem um vault de notas, trabalhe nele |
-| qualquer outra coisa | **`~/panda`** — crie se não existir |
+| `.panda/PERFIL.md` aqui | `.` — o setup já rodou nesta pasta |
+| `panda/.panda/PERFIL.md` | `panda/` — o setup já rodou, ela abriu na pasta pessoal |
+| `.obsidian/`, ou vários `.md` na raiz | `.` — ela já tem um vault de notas, trabalhe nele |
+| qualquer outra coisa | `panda/` — crie |
 
-As duas primeiras linhas são detecção automática, não pergunta. Se nenhuma bater, é `~/panda` e
-pronto: nada de "onde você quer?", "prefere outro lugar?", "posso criar em tal pasta?".
+Isso é detecção, não pergunta: nada de "onde você quer?", "prefere outro lugar?", "posso criar em
+tal pasta?".
 
-**Se já existe `.panda/PERFIL.md`** (primeira linha), o setup já rodou: diga o que está
-configurado, pergunte se ela quer continuar de onde parou, e pule pra primeira etapa que falta.
-Não recomece. Com `$ARGUMENTS` contendo "refazer", confirme que o perfil atual será substituído
-(as notas nunca são apagadas) e recomece.
+**Sempre caminho relativo.** A pasta é `panda/`, nunca `~/panda` nem caminho absoluto: o `~` não
+funciona igual em todo sistema, e caminho fora da pasta atual dispara pedido de permissão a cada
+arquivo. Com o prefixo relativo você nunca precisa de nenhum dos dois.
 
-**Se a pasta for um vault que já existe** (segunda linha), avise que você vai trabalhar nas notas
-que ela já tem e **adapte-se ao formato dela** em vez de criar estrutura por cima.
+**Se o setup já rodou** (duas primeiras linhas): diga o que está configurado, pergunte se ela quer
+continuar de onde parou, e pule pra primeira etapa que falta. Não recomece. Com `$ARGUMENTS`
+contendo "refazer", confirme que o perfil atual será substituído (as notas nunca são apagadas) e
+recomece.
 
-**Se for `~/panda`**, não anuncie isso como decisão técnica no meio da conversa. Crie a pasta
-quando chegar a hora de gravar, e conte na mensagem 7 — quando ela já sabe o que ganhou.
+**Se for um vault que já existe** (terceira linha): avise que você vai trabalhar nas notas que ela
+já tem e **adapte-se ao formato dela** em vez de criar estrutura por cima.
+
+**Se for criar `panda/`**: não anuncie como decisão técnica no meio da conversa. Crie quando chegar
+a hora de gravar e conte na mensagem 7, quando ela já sabe o que ganhou.
 
 Todos os caminhos deste comando — `.panda/`, `AGENTS.md`, `Diário/`, `Dados/`, `Templates/` — são
-relativos a essa pasta. Nunca escreva fora dela.
+relativos à pasta-base.
 
 ---
 
@@ -151,10 +156,9 @@ Se ela não quiser escrever agora, tudo bem — diga que é só chamar `/journal
 
 No máximo cinco linhas:
 
-- **onde ficaram as notas e como te chamar amanhã** — normalmente `cd ~/panda` e depois
-  `opencode`. Esse é o ponto mais importante da mensagem: diga o caminho exato e que é dali que
-  você abre. Se ela abrir de outro lugar, você ainda vai saber apontar o caminho, mas é melhor
-  já começar certo;
+- **onde ficaram as notas**: numa pasta chamada `panda`, ali onde ela está. Diga que amanhã é só
+  abrir o OpenCode do mesmo jeito que abriu hoje e te chamar — **ela não precisa entrar na pasta
+  nem digitar comando nenhum de terminal**, você encontra as notas sozinho;
 - três comandos, quatro palavras cada: `/journal`, `/plan`, e `/ajustar` pra mudar qualquer coisa
   em você;
 - que o perfil vai crescendo sozinho conforme ela te conta as coisas.

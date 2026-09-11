@@ -29,18 +29,14 @@ Aí é só abrir o OpenCode e pedir `/setup`:
 opencode
 ```
 
-Ele cuida do resto: faz umas poucas perguntas, cria suas notas em `~/panda` e escreve seu primeiro
-dia junto com você. Você não precisa criar pasta nem escolher lugar nenhum.
+Ele cuida do resto: faz umas poucas perguntas, cria suas notas numa pasta `panda` e escreve seu
+primeiro dia junto com você. Você não escolhe lugar nenhum e não cria pasta nenhuma.
 
-**Do dia seguinte em diante**, abra de dentro dela:
+**Do dia seguinte em diante, é só abrir o OpenCode do mesmo jeito e chamar o Panda.** Ele encontra
+suas notas sozinho — você não precisa entrar em pasta nenhuma nem digitar comando de terminal.
 
-```bash
-cd ~/panda && opencode
-```
-
-> Se você abrir o Panda de outro lugar, ele não encontra suas notas — mas avisa e te diz o caminho,
-> em vez de responder no escuro. Se você já tem um vault de notas (Obsidian, por exemplo) e abrir o
-> Panda de dentro dele, ele trabalha ali mesmo, no formato que você já usa.
+> Se você já tem um vault de notas (Obsidian, por exemplo) e abrir o Panda de dentro dele, ele
+> trabalha ali mesmo, no formato que você já usa.
 
 **Atualizar:** `opencode plugin -g github:acLevi/panda-agent --force`
 
