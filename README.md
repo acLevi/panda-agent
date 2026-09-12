@@ -50,6 +50,7 @@ suas notas sozinho — você não precisa entrar em pasta nenhuma nem digitar co
 | `/review` | revisa um período que terminou, sem maquiar o resultado |
 | `/progress` | como você está indo em relação ao que planejou |
 | `/habitos` | painel dos seus hábitos: últimos dias, totais e sequências |
+| `/lembrar` | procura no que você já escreveu — sempre dizendo em que nota achou |
 | `/ajustar` | muda qualquer coisa nele: o jeito de falar, os hábitos, ou um comando novo |
 
 O `/ajustar` é o que faz ele ser seu: "fala menos", "quero acompanhar quanta água eu bebo",

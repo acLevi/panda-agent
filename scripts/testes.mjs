@@ -109,8 +109,8 @@ console.log("\nplugin — o que ele injeta no OpenCode")
     if (cfg.agent.panda.prompt.startsWith("---")) throw new Error("frontmatter vazou pro prompt")
   })
   t("prompt não está vazio", () => { if (cfg.agent.panda.prompt.length < 2000) throw new Error("prompt curto demais") })
-  t("registra os sete comandos", () => eq(Object.keys(cfg.command).sort().join(","),
-    "ajustar,habitos,journal,plan,progress,review,setup", "comandos"))
+  t("registra os oito comandos", () => eq(Object.keys(cfg.command).sort().join(","),
+    "ajustar,habitos,journal,lembrar,plan,progress,review,setup", "comandos"))
   t("todo comando aponta pro agente panda", () => {
     const erradas = Object.entries(cfg.command).filter(([, c]) => c.agent !== "panda").map(([n]) => n)
     if (erradas.length) throw new Error(`sem agent panda: ${erradas.join(", ")}`)
