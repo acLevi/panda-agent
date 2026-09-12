@@ -8,6 +8,8 @@ import { readFileSync, readdirSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
+import { calcularHabitos, formatarParaOModelo, descobrirBase } from "./habitos.js"
+
 const raiz = join(dirname(fileURLToPath(import.meta.url)), "..")
 
 /** Separa o frontmatter YAML simples (chave: valor) do corpo do markdown. */
@@ -58,5 +60,27 @@ export const panda = async () => ({
       // Um Panda quebrado não pode impedir o OpenCode de abrir.
       console.error("[panda] não consegui carregar os arquivos do agente:", erro?.message ?? erro)
     }
+  },
+
+  tool: {
+    // Sem argumentos de propósito: a ferramenta entrega os números da última
+    // semana, e o modelo recorta e formata. Isso também evita depender de zod.
+    panda_habitos: {
+      description:
+        "Calcula os hábitos das notas diárias: marcas dia a dia dos últimos 7 dias, " +
+        "quantas vezes na semana, dias seguidos, e total/média para hábitos de quantidade. " +
+        "Os números voltam exatos — use-os como estão, nunca refaça a conta.",
+      args: {},
+      async execute(_args, ctx) {
+        const base = descobrirBase(ctx.directory)
+        if (!base) return "Não encontrei as notas: nem esta pasta nem `panda/` têm um diário."
+        const r = calcularHabitos(base, 7)
+        return {
+          title: "Hábitos dos últimos 7 dias",
+          output: formatarParaOModelo(r),
+          metadata: { base, semHabitos: r.semHabitos },
+        }
+      },
+    },
   },
 })

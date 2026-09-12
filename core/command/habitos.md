@@ -8,48 +8,23 @@ Monte o painel de hábitos da pessoa e grave em `Dados/Hábitos.md`.
 Funciona **sem Obsidian e sem plugin nenhum**: o painel é uma tabela de markdown comum, que se lê
 em qualquer editor de texto.
 
-## Regra de ouro: não faça a conta de cabeça
+## Regra de ouro: você não faz conta
 
-Contar hábito em dezenas de notas é conta, e conta na cabeça sai errada. **Colete os dados com um
-comando só** e depois apenas formate o que voltou. Nunca estime, nunca complete um dia que você não
-viu, nunca some "de memória".
+Existe uma ferramenta chamada **`panda_habitos`** que calcula tudo: as marcas dia a dia dos últimos
+7 dias, quantas vezes na semana, os dias seguidos e, para hábitos de quantidade, o total e a média.
 
-## Passo 1 — descubra quais são os hábitos
+**Chame-a e use os números como vieram.** Não recalcule, não arredonde, não some de cabeça, não
+tente ler as notas você mesmo. Contar hábito em dezenas de notas é conta, e conta na cabeça sai
+errada — já saiu: numa tabela de 28 marcadores todos certos, o total de uma linha veio errado.
 
-Leia o frontmatter de `Templates/Diário.md`. Os hábitos são todos os campos **exceto** `date` e
-`tags`. Campo booleano (`false`) é do tipo fez/não fez; campo numérico (`0`) é do tipo quantidade.
+> A ferramenta também é o que faz este comando funcionar fora do Linux. A versão anterior ensinava
+> `find`, `grep -c` e `awk` no prompt, e no Windows o OpenCode roda PowerShell — nada disso existe
+> lá. `find -printf` também não existe no macOS.
 
-Se não houver nenhum hábito, pare aqui: diga que ela ainda não acompanha nenhum hábito e que dá pra
-adicionar com `/ajustar`. Não invente hábito.
+Se a ferramenta responder que **não há hábito configurado**, pare aqui: diga que a pessoa ainda não
+acompanha nenhum hábito e que dá pra adicionar com `/ajustar`. Não invente hábito.
 
-## Passo 2 — colete tudo de uma vez
-
-Um comando, não um arquivo por vez:
-
-```bash
-find Diário -name '*.md' | sort | tail -40 | xargs grep -H -E '^(campo1|campo2|campo3):'
-```
-
-Troque `campo1|campo2|...` pelos hábitos reais dela. O resultado traz uma linha por
-arquivo/hábito, no formato `Diário/2026/09/2026-09-10.md:agua: true`.
-
-Se o comando não voltar nada, é porque ainda não há notas diárias com hábitos registrados — diga
-isso e pare.
-
-## Passo 2b — deixe o shell somar também
-
-**Você não soma nada de cabeça, nem os totais.** Liste as 7 datas do período e peça a contagem:
-
-```bash
-ARQS=$(ls Diário/*/*/{2026-09-05,2026-09-06,2026-09-07,2026-09-08,2026-09-09,2026-09-10,2026-09-11}.md 2>/dev/null)
-grep -h '^agua:'      $ARQS | grep -c 'true'      # hábito de fez/não fez
-grep -h '^leitura:'   $ARQS | grep -vc ': 0$'     # hábito de quantidade: dias acima de zero
-grep -h '^leitura:'   $ARQS | awk -F': ' '{s+=$2} END {print s+0}'   # total acumulado
-```
-
-Troque as datas pelas 7 reais e rode uma linha por hábito. **Os números que forem pro painel são
-os que voltarem daqui** — se um total que você escreveu não bate com a quantidade de ✅ da linha,
-o erro é seu: refaça pelo shell.
+Se ela responder que **não encontrou as notas**, diga isso e pare.
 
 ## Passo 3 — monte o painel
 
@@ -64,22 +39,23 @@ mais recente:
 
 - `✅` quando o valor é `true`, ou quando o número é maior que zero
 - `·` quando é `false`, zero, **ou quando não existe nota naquele dia**
-- A coluna final é **o número que voltou do passo 2b**, sempre sobre 7 — nunca uma soma sua
+- A coluna final é **o `na semana` que a ferramenta devolveu**, sempre sobre 7 — nunca uma soma sua
 
-**Hábitos de quantidade** (páginas, minutos, copos): mostre o total que veio do `awk` e a média
-**sobre os dias que têm nota** — incluindo os dias registrados como zero. Um dia em que ela anotou
-que não leu é informação real, e tirá-lo da conta infla o resultado.
+**Hábitos de quantidade** (páginas, minutos, copos): mostre o `total` e a `média` que a ferramenta
+devolveu. Ela já calcula a média **sobre os dias que têm nota**, incluindo os registrados como zero
+— um dia em que a pessoa anotou que não leu é informação real, e tirá-lo da conta infla o
+resultado.
 
-Ex.: 107 páginas em 6 dias com nota, dos quais 5 com leitura → `Leitura — 107 páginas, 5 de 7
-dias (média 17,8 por dia com nota)`. Nunca divida de cabeça; use o `awk`.
+Ex.: `total: 94 em 6 dias com nota` e `média: 15.7` viram `Leitura — 94 páginas, 5 de 7 dias
+(média 15,7 por dia com nota)`.
 
 > **Não lisonjeie.** Uma média calculada só sobre os dias bons faz "21,4/dia" parecer que a meta de
 > 20 foi batida, quando ela leu em 5 dos 7 dias. O painel serve pra ela enxergar a realidade — se
 > os números puderem ser lidos de dois jeitos, mostre o menos favorável, ou mostre os dois.
 
-**Dias seguidos** — a partir de hoje, andando pra trás, quantos dias consecutivos o hábito foi
-feito. Dia sem nota **quebra a sequência**. Conte só dentro do que o comando trouxe; se a sequência
-chegar no fim dos dados, diga "pelo menos N dias" em vez de cravar um número.
+**Dias seguidos** — o campo `seguidos` da ferramenta. Dia sem nota quebra a sequência. Se o número
+vier com `+` no fim, a sequência chegou ao limite dos dados: diga "pelo menos N dias" em vez de
+cravar.
 
 **Contra a meta** — se `.panda/CONTEXTO.md` declarar a meta ("3x por semana", "20 páginas por
 dia"), mostre o resultado ao lado dela. Sem meta declarada, só mostre o número.

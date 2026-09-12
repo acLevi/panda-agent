@@ -64,6 +64,10 @@ continuam lá, legíveis.
 Ele lê o que quiser, mas **nunca escreve sem te perguntar** — e nunca apaga o que você escreveu à
 mão.
 
+E se ele escrever alguma coisa errada mesmo assim, **`/undo` desfaz**. É comando do próprio
+OpenCode, funciona pra qualquer alteração que ele tenha feito na conversa, e `/redo` traz de volta.
+Vale saber que existe antes de precisar.
+
 ---
 
 # Para quem for mexer no código
