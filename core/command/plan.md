@@ -36,8 +36,50 @@ consulte o estado real dessa fonte antes de planejar em cima dela.
 - **Mensal** → `Planejamento/Mensal/<ANO>/<ANO>-<MM>.md`
 - **Trimestral** → `Planejamento/Trimestral/<ANO>/<ANO>-Q<T>.md`
 
-Use o template correspondente em `Templates/` quando existir. **Planejamento é prospectivo** e
-mora em `Planejamento/`; **revisão é retrospectiva** e mora em `Revisões/` — não misture os dois.
+**Planejamento é prospectivo** e mora em `Planejamento/`; **revisão é retrospectiva** e mora em
+`Revisões/` — não misture os dois.
+
+### O template
+
+Use `Templates/Planejamento.md`. **Se ele não existir, crie-o agora** com o esqueleto abaixo e só
+então escreva o plano seguindo ele. É o que mantém os planos parecidos entre si ao longo dos meses
+— e a lógica progressiva depende disso: daqui a seis meses você vai precisar **ler** o plano
+anterior pra escrever o próximo, e formato que muda toda vez torna isso cada vez mais difícil.
+
+Se ela já tiver editado o template, **siga o dela** — o esqueleto é ponto de partida, não regra.
+
+```markdown
+---
+tipo: planejamento
+periodo: <ex.: 2026-W38, 2026-09, 2026-Q3>
+tags: [planejamento]
+---
+
+# Planejamento — <período por extenso>
+
+> Nasce de: <link ou nome do plano/revisão que deu origem a este>
+
+## 🎯 Foco do período
+<uma frase: se só uma coisa sair, que seja esta>
+
+## ✅ Prioridades
+- [ ] 1.
+- [ ] 2.
+- [ ] 3.
+
+## 📂 Por área
+### <categoria da pessoa>
+- [ ]
+
+## 📌 Vindo de trás
+<o que ficou pendente do período anterior e continua valendo>
+
+## 🧭 Como vou saber que deu certo
+- <evidência observável, não sensação>
+```
+
+As categorias em "Por área" são as do perfil dela. O campo `periodo` no frontmatter é o que permite
+achar este plano depois — preencha sempre.
 
 Se a nota do período já existir, **atualize-a** em vez de duplicar: incorpore o que avançou,
 registre o que mudou e ajuste os próximos passos.

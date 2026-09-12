@@ -28,16 +28,49 @@ semana, use esse.
 
 ## O resultado
 
-Grave em `Revisões/<Semanal|Mensal|Trimestral>/<ANO>/<identificador do período>.md`, usando o
-template correspondente em `Templates/` se houver.
+Grave em `Revisões/<Semanal|Mensal|Trimestral>/<ANO>/<identificador do período>.md`.
 
-Estrutura mínima:
-- **O que foi planejado** e o placar honesto de cada item
-- **O que aconteceu que não estava no plano** (isso costuma explicar o resto)
-- **Hábitos do período**
-- **O que funcionou** e vale manter
-- **O que não funcionou** e o ajuste concreto pro próximo período
-- **Pontos de partida pro próximo plano**
+### O template
+
+Use `Templates/Revisão.md`. **Se ele não existir, crie-o agora** com o esqueleto abaixo e escreva a
+revisão seguindo ele. Revisões com formato estável são comparáveis entre si; revisões em texto
+livre viram desabafo que ninguém relê. Se ela já editou o template, siga o dela.
+
+```markdown
+---
+tipo: revisão
+periodo: <ex.: 2026-W38, 2026-09, 2026-Q3>
+tags: [revisao]
+---
+
+# Revisão — <período por extenso>
+
+> Plano de origem: <link pro planejamento deste período>
+
+## 📋 O que estava planejado
+| Item | Como ficou | Por quê |
+|---|---|---|
+| <prioridade 1> | feito · pela metade · nem comecei | <só se ela souber> |
+
+## 🌊 O que aconteceu fora do plano
+<o que consumiu o período e não estava previsto — costuma explicar a tabela acima>
+
+## 📊 Hábitos do período
+<números, não impressão>
+
+## 👍 O que funcionou
+- <e vale manter>
+
+## 🔧 O que não funcionou
+- <e o ajuste concreto, não a intenção genérica>
+
+## ➡️ Pro próximo período
+- <pontos de partida pro próximo planejamento>
+```
+
+O campo `periodo` no frontmatter é o que permite o `/plan` seguinte achar esta revisão — preencha
+sempre. A coluna "Por quê" fica vazia quando ela não souber: inventar motivo é pior que admitir
+que não sabe.
 
 ## Tom
 
