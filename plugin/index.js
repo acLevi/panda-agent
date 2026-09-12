@@ -60,6 +60,19 @@ export const panda = async (entrada) => {
         for (const arquivo of arquivos) {
           if (!arquivo.endsWith(".md")) continue
           const nome = arquivo.slice(0, -3)
+
+          // Nem todo arquivo .md daqui é um comando. Um README posto pra explicar a
+          // pasta viraria `/README`; nome com espaço ou começando com ponto não é
+          // digitável e vira entrada morta na lista dela. Avisa em vez de sumir
+          // calado — comando que ela pediu e não aparece é pior que erro visível.
+          if (!/^[a-z0-9][a-z0-9_-]{0,31}$/.test(nome)) {
+            console.error(
+              `[panda] ignorei .panda/comandos/${arquivo}: nome de comando precisa ser ` +
+                "minúsculo, sem espaço nem acento, começando por letra ou número.",
+            )
+            continue
+          }
+
           // Um comando do core nunca é substituído por um dela sem querer.
           if (config.command[nome]) continue
           const { meta, corpo } = separar(readFileSync(join(seus, arquivo), "utf8"))

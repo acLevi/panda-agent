@@ -65,7 +65,9 @@ correspondente em `Dados/`, mantendo os dois coerentes.
    `agent: panda`,
    e instruções na mesma linha dos comandos do core: o que ler, como decidir, o que gravar, e
    confirmar antes de gravar.
-3. Dê um nome curto e em português, do jeito que ela chamaria a coisa.
+3. Dê um nome curto e em português, do jeito que ela chamaria a coisa — **minúsculo, sem espaço e
+   sem acento**, usando hífen se precisar separar (`estagio-semana`, não `Estágio Semana`). Nome
+   fora disso é ignorado na hora de carregar, e o comando dela nunca aparece.
 4. **Diga como usar:** "pronto, agora é só digitar `/treino`." Só isso — sem explicar como funciona
    por dentro.
 

@@ -265,6 +265,19 @@ console.log("\nplugin — o que ele injeta no OpenCode")
   })
   t("comando da pessoa herda agent: panda", () => eq(cu.command.treino.agent, "panda", "agent"))
 
+  // Nem todo .md naquela pasta é comando: um README posto pra explicá-la viraria
+  // /README, e nome com espaço ou ponto não é digitável.
+  const nomesRuins = ["README.md", "meu treino.md", "TREINO.md", ".oculto.md"]
+  for (const n of nomesRuins) writeFileSync(join(vaultU, ".panda", "comandos", n), "---\ndescription: d\n---\nc\n")
+  writeFileSync(join(vaultU, ".panda", "comandos", "estagio-semana.md"), "---\ndescription: ok\n---\nc\n")
+  const cn = {}
+  await (await panda({ directory: casaU })).config(cn)
+  t("nome de comando inválido é ignorado, não vira comando", () => {
+    const ruins = ["README", "meu treino", "TREINO", ".oculto"].filter((n) => cn.command[n])
+    if (ruins.length) throw new Error(`aceitou nome inválido: ${ruins.join(", ")}`)
+  })
+  t("nome com hífen continua valendo", () => eq(cn.command["estagio-semana"]?.description, "ok", "hífen"))
+
   const v = vaultGabarito()
   const hv = await panda({ directory: v })
   const out = { system: [] }
