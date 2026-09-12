@@ -116,6 +116,12 @@ Pare.
 
 > Se ela não tiver nenhum, **siga sem hábito algum**. Não invente — hábito inventado vira campo
 > vazio pra sempre. Dá pra adicionar depois com `/ajustar`.
+>
+> **Se vierem mais de cinco de uma vez**, diga uma frase — uma só — antes de aceitar: cada hábito
+> vira um campo pra confirmar toda noite, e lista longa costuma ser abandonada inteira na segunda
+> semana; começar com três e ir somando com `/ajustar` costuma durar mais. **Aí aceite o que ela
+> decidir**, inclusive os dez. Isso é um aviso, não uma negociação — não repita, não insista, e
+> nunca corte a lista dela por conta própria.
 
 ### Mensagem 4 — como você fala com ela
 
