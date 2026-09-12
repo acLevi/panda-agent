@@ -9,6 +9,7 @@ import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { calcularHabitos, formatarParaOModelo, descobrirBase } from "./habitos.js"
+import { situacao } from "./situacao.js"
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), "..")
 
@@ -29,7 +30,11 @@ function ler(caminho) {
   return { meta, corpo: bruto.slice(casa[0].length).trim() }
 }
 
-export const panda = async () => ({
+let cache = { texto: null, quando: 0, base: null }
+
+export const panda = async (entrada) => {
+  const diretorioAtual = entrada?.directory ?? process.cwd()
+  return {
   config: async (config) => {
     try {
       const agente = ler(join(raiz, "core", "agent", "panda.md"))
@@ -62,6 +67,33 @@ export const panda = async () => ({
     }
   },
 
+  // Injeta a situação do vault no prompt de sistema, a cada requisição.
+  //
+  // Duas ressalvas. É API `experimental`: pode mudar sem aviso, por isso tudo
+  // aqui está dentro de try/catch — se quebrar, o Panda perde a iniciativa mas
+  // continua funcionando. E o hook NÃO informa qual agente está rodando, então
+  // a guarda é a presença de um vault: numa pasta de código não há o que
+  // injetar, e nada é injetado.
+  "experimental.chat.system.transform": async (_input, output) => {
+    try {
+      const base = descobrirBase(diretorioAtual)
+      if (!base) return
+      const agora = Date.now()
+      if (!cache.texto || agora - cache.quando > 60_000 || cache.base !== base) {
+        cache = { texto: situacao(base), quando: agora, base }
+      }
+      output.system.push(
+        "## Situação atual (calculado, não inferido)\n\n" +
+          cache.texto +
+          "\n\nSão fatos exatos, apurados agora a partir das notas. Use-os como estão — " +
+          "principalmente a data de hoje, que você não deve deduzir. O quanto comentar isso " +
+          "sem ser perguntado depende da proatividade declarada no perfil.",
+      )
+    } catch {
+      // Perder o contexto de abertura é aceitável; derrubar a sessão não é.
+    }
+  },
+
   tool: {
     // Sem argumentos de propósito: a ferramenta entrega os números da última
     // semana, e o modelo recorta e formata. Isso também evita depender de zod.
@@ -83,4 +115,5 @@ export const panda = async () => ({
       },
     },
   },
-})
+  }
+}
