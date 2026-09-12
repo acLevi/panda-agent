@@ -76,7 +76,6 @@ core/                  o Panda em si — igual pra todo mundo
   command/             setup · journal · plan · review · progress · habitos · ajustar
 plugin/index.js        envelope: lê os .md do pacote e injeta na config do OpenCode
 perfil-modelo/         referência do que o /setup gera (não é usado em tempo de execução)
-extensoes/levi/        extensões pessoais — prova de que dá pra estender sem fork
 ```
 
 Os dados de cada pessoa não moram aqui: ficam em `.panda/` **dentro do vault dela**
