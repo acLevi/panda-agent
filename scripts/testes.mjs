@@ -12,6 +12,7 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { calcularHabitos, descobrirBase } from "../plugin/habitos.js"
 import { situacao } from "../plugin/situacao.js"
+import { separar, valorDeHabito } from "../plugin/markdown.js"
 import { panda } from "../plugin/index.js"
 
 let ok = 0, falhas = []
@@ -59,6 +60,35 @@ console.log("\nhábitos — contas contra gabarito calculado à parte")
   t("6 dias com nota na janela de 7", () => eq(r.notasNaJanela, 6, "notasNaJanela"))
   t("hábito de quantidade é reconhecido", () => eq(por("leitura").quantidade, true, "quantidade"))
   t("hábito de sim/não não vira quantidade", () => eq(por("agua").quantidade, false, "quantidade"))
+}
+
+console.log("\nparser — casos que faziam a nota sumir em silêncio")
+{
+  // Cada um destes já fez uma nota inteira desaparecer das contagens.
+  const casos = [
+    ["BOM do Bloco de Notas (Windows)", "\uFEFF---\nagua: true\n---\n", true],
+    ["fim de linha CRLF", "---\r\nagua: true\r\n---\r\n", true],
+    ["maiúscula e espaço extra", "---\nagua:  True\n---\n", true],
+    ["aspas no valor", "---\nagua: \"true\"\n---\n", true],
+    ["sim em vez de true", "---\nagua: sim\n---\n", true],
+    ["false continua sendo false", "---\nagua: false\n---\n", false],
+    ["campo ausente não é false", "---\noutro: 1\n---\n", null],
+  ]
+  for (const [nome, texto, esperado] of casos) {
+    t(nome, () => {
+      const v = valorDeHabito(separar(texto).meta, "agua")
+      eq(v === null ? null : v.feito, esperado, "valor")
+    })
+  }
+  t("dois-pontos no valor não quebra a chave", () => {
+    eq(separar("---\ntitulo: Reunião: parte 2\n---\n").meta.titulo, "Reunião: parte 2", "titulo")
+  })
+  t("quantidade com vírgula decimal", () => {
+    eq(valorDeHabito(separar("---\nleitura: 5,5\n---\n").meta, "leitura").n, 5.5, "n")
+  })
+  t("BOM não vaza pro corpo", () => {
+    if (separar("\uFEFF---\na: 1\n---\ncorpo").corpo !== "corpo") throw new Error("corpo sujo")
+  })
 }
 
 console.log("\nvault sem hábitos e vault vazio")

@@ -10,24 +10,11 @@
 
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs"
 import { join } from "node:path"
+import { separar, valorDeHabito } from "./markdown.js"
 
 const DIA_MS = 86400000
 const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
 const ddmm = (s) => `${s.slice(8, 10)}/${s.slice(5, 7)}`
-
-/** Frontmatter simples: chave: valor. Devolve {} se não houver. */
-function frontmatter(texto) {
-  const m = texto.match(/^---\r?\n([\s\S]*?)\r?\n---/)
-  if (!m) return {}
-  const campos = {}
-  for (const linha of m[1].split(/\r?\n/)) {
-    const i = linha.indexOf(":")
-    if (i === -1) continue
-    const chave = linha.slice(0, i).trim()
-    if (chave) campos[chave] = linha.slice(i + 1).trim()
-  }
-  return campos
-}
 
 /** Todo arquivo AAAA-MM-DD.md sob Diário/, indexado por data. */
 function notasDiarias(base) {
@@ -50,21 +37,10 @@ function notasDiarias(base) {
 function habitosDoTemplate(base) {
   const alvo = join(base, "Templates", "Diário.md")
   if (!existsSync(alvo)) return []
-  const campos = frontmatter(readFileSync(alvo, "utf8"))
+  const campos = separar(readFileSync(alvo, "utf8")).meta
   return Object.keys(campos)
     .filter((k) => !["date", "tags", "data", "atualizado", "tipo"].includes(k))
     .map((k) => ({ campo: k, quantidade: /^-?\d+(\.\d+)?$/.test(campos[k]) }))
-}
-
-/** Um hábito foi cumprido naquele dia? null = não há nota. */
-function valor(nota, campo) {
-  if (!nota) return null
-  const v = nota[campo]
-  if (v === undefined) return null
-  if (/^true$/i.test(v)) return { feito: true }
-  if (/^false$/i.test(v)) return { feito: false }
-  const n = Number(v)
-  return Number.isFinite(n) ? { feito: n > 0, n } : null
 }
 
 export function calcularHabitos(base, dias = 7) {
@@ -80,14 +56,14 @@ export function calcularHabitos(base, dias = 7) {
   const ler = (data) => {
     if (!lidas.has(data)) {
       const p = notas.get(data)
-      lidas.set(data, p ? frontmatter(readFileSync(p, "utf8")) : null)
+      lidas.set(data, p ? separar(readFileSync(p, "utf8")).meta : null)
     }
     return lidas.get(data)
   }
 
   const linhas = habitos.map(({ campo, quantidade }) => {
     const marcas = janela.map((d) => {
-      const v = valor(ler(d), campo)
+      const v = valorDeHabito(ler(d), campo)
       return { dia: d, temNota: notas.has(d), feito: v?.feito === true, n: v?.n }
     })
     const feitos = marcas.filter((m) => m.feito).length
@@ -97,7 +73,7 @@ export function calcularHabitos(base, dias = 7) {
     let seq = 0, cravado = true
     for (let i = 0; i < 366; i++) {
       const d = iso(new Date(hoje.getTime() - i * DIA_MS))
-      const v = valor(ler(d), campo)
+      const v = valorDeHabito(ler(d), campo)
       if (v?.feito !== true) break
       seq++
       if (i === 365) cravado = false

@@ -10,25 +10,10 @@ import { fileURLToPath } from "node:url"
 
 import { calcularHabitos, formatarParaOModelo, descobrirBase } from "./habitos.js"
 import { situacao } from "./situacao.js"
+import { separar } from "./markdown.js"
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), "..")
 
-/** Separa o frontmatter YAML simples (chave: valor) do corpo do markdown. */
-function ler(caminho) {
-  const bruto = readFileSync(caminho, "utf8")
-  const casa = bruto.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/)
-  if (!casa) return { meta: {}, corpo: bruto.trim() }
-
-  const meta = {}
-  for (const linha of casa[1].split(/\r?\n/)) {
-    const i = linha.indexOf(":")
-    if (i === -1) continue
-    const chave = linha.slice(0, i).trim()
-    const valor = linha.slice(i + 1).trim().replace(/^["']|["']$/g, "")
-    if (chave) meta[chave] = valor
-  }
-  return { meta, corpo: bruto.slice(casa[0].length).trim() }
-}
 
 let cache = { texto: null, quando: 0, base: null }
 
@@ -37,7 +22,7 @@ export const panda = async (entrada) => {
   return {
   config: async (config) => {
     try {
-      const agente = ler(join(raiz, "core", "agent", "panda.md"))
+      const agente = separar(readFileSync(join(raiz, "core", "agent", "panda.md"), "utf8"))
       config.agent ??= {}
       // O que o usuário já definiu vence: quem editou o próprio panda no opencode.json
       // ou tem um panda.md local não é sobrescrito por uma atualização do plugin.
@@ -53,7 +38,7 @@ export const panda = async (entrada) => {
       for (const arquivo of readdirSync(pasta)) {
         if (!arquivo.endsWith(".md")) continue
         const nome = arquivo.slice(0, -3)
-        const { meta, corpo } = ler(join(pasta, arquivo))
+        const { meta, corpo } = separar(readFileSync(join(pasta, arquivo), "utf8"))
         config.command[nome] = {
           template: corpo,
           description: meta.description,
@@ -77,7 +62,7 @@ export const panda = async (entrada) => {
           const nome = arquivo.slice(0, -3)
           // Um comando do core nunca é substituído por um dela sem querer.
           if (config.command[nome]) continue
-          const { meta, corpo } = ler(join(seus, arquivo))
+          const { meta, corpo } = separar(readFileSync(join(seus, arquivo), "utf8"))
           config.command[nome] = {
             template: corpo,
             description: meta.description,
