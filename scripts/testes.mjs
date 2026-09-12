@@ -271,6 +271,18 @@ console.log("\ncomandos e agente — o que não pode voltar")
     const ingles = cmds.filter((f) => !/^(ajustar|diario|habitos|lembrar|planejar|revisar|setup)\.md$/.test(f))
     if (ingles.length) throw new Error(`fora do padrão pt-BR: ${ingles.join(", ")}`)
   })
+  t("comando criado pelo /ajustar tem limites que nem a dona derruba", () => {
+    const aj = readFileSync(join(dir, "ajustar.md"), "utf8")
+    for (const regra of ["sem confirmação na hora", "fora da pasta-base", "não faz"]) {
+      if (!aj.includes(regra)) throw new Error(`sumiu o limite: ${regra}`)
+    }
+  })
+  t("o AGENTS.md do vault é escrito para OUTROS agentes", () => {
+    const setup = readFileSync(join(dir, "setup.md"), "utf8")
+    // Se ele só repetisse as regras do Panda seria desperdício de contexto; ele
+    // existe para o dia em que um agente de programação abrir a pasta.
+    if (!setup.includes("não é pra você")) throw new Error("AGENTS.md voltou a ser repetição do prompt")
+  })
   t("o agente conhece todos os comandos que existem", () => {
     const orfaos = cmds.map((f) => f.replace(/\.md$/, ""))
       .filter((n) => !agente.includes(`/${n}`))

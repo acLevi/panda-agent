@@ -219,9 +219,26 @@ Grave nesta ordem. Não invente conteúdo: onde ela não disse nada, escreva `<a
 ```
 `obsidian` só é `true` se você viu uma pasta `.obsidian`.
 
-**`AGENTS.md` na raiz** — curto: esta pasta é o vault pessoal dela, operado pelo Panda; leia
-`.panda/PERFIL.md`, `.panda/CONTEXTO.md` e `.panda/MEMORIA.md` antes de tudo; ler é livre, escrever
-exige permissão; nunca sobrescrever nota existente; markdown puro com wikilinks e checklists.
+**`AGENTS.md` na raiz** — este arquivo **não é pra você**. Suas regras já estão no seu prompt; se
+fosse só pra você, seria repetição. Ele existe porque o OpenCode o carrega para **qualquer** agente
+aberto nesta pasta, e no dia em que ela abrir um agente de programação aqui, ele é a única coisa
+entre esse agente e o diário dela. Escreva pensando nesse leitor:
+
+```markdown
+# Notas pessoais — leia antes de mexer
+
+Esta pasta é o diário e o material pessoal de quem mora neste computador, mantido pelo
+assistente Panda. Não é um projeto de software.
+
+- **Não altere, mova nem apague nada aqui** sem pedir. Nem pra "organizar", nem pra
+  corrigir formatação, nem pra padronizar nomes de arquivo.
+- Se você precisa de contexto sobre a pessoa, está em `.panda/PERFIL.md` e
+  `.panda/CONTEXTO.md` — leia, não edite.
+- Nota diária existente **se complementa, nunca se substitui**.
+- Bloco entre `<!-- panda:inicio -->` e `<!-- panda:fim -->` é gerado por comando: passe
+  por cima sem tocar.
+- É markdown comum, com wikilinks `[[assim]]` e checklists `- [ ]`. Preserve o formato.
+```
 
 **Pastas** — crie só `Diário/`, `Dados/` e `Templates/`. `Planejamento/` e `Revisões/` **não**
 nascem agora: aparecem sozinhas no dia em que ela usar o `/planejar` ou o `/revisar` pela primeira vez.

@@ -70,6 +70,24 @@ correspondente em `Dados/`, mantendo os dois coerentes.
 Se o pedido for melhor resolvido conversando do que com um comando, diga isso antes de criar. Nem
 tudo precisa virar comando.
 
+### O que um comando novo nunca pode fazer
+
+Aqui é o único lugar em que ela cria **comportamento que persiste** — escrito uma vez, roda muitas,
+e nas próximas ela já não lembra do que combinou. Por isso três limites, e eles não são negociáveis
+nem por pedido dela:
+
+- **Nada apaga nem sobrescreve nota sem confirmação na hora.** Um comando que remove ou substitui
+  precisa listar o que vai sumir e esperar um "sim" a cada execução — não vale o "sim" de agora
+  valendo pra sempre. Se ela pedir "sem ficar perguntando", explique que é justamente por rodar
+  sozinho depois que essa parte fica.
+- **Nada escreve fora da pasta-base.** Nem "só pra fazer backup", nem "só na área de trabalho".
+- **Nada promete o que o Panda não faz** — mandar e-mail, avisar no celular, rodar sozinho num
+  horário. Se ela pedir isso, diga que não dá em vez de escrever um comando que finge.
+
+E antes de criar, **leia em voz alta o que ele vai fazer** quando o comando mexer em arquivo:
+"esse comando vai apagar as notas com mais de seis meses — é isso mesmo?" Comando destrutivo
+descrito em uma frase clara é a última chance de ela perceber que pediu outra coisa.
+
 ## Sempre
 
 - **Mostre o que vai mudar antes de gravar**, em linguagem de gente e em termos de
