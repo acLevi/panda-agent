@@ -10,6 +10,22 @@ import { readFileSync, readdirSync, existsSync } from "node:fs"
 import { join } from "node:path"
 import { calcularHabitos, pastaDoDiario } from "./habitos.js"
 
+/**
+ * Esta pasta parece um projeto de código?
+ *
+ * O /setup criava o vault na pasta atual, assumindo que fosse a pessoal. Mas quem
+ * usa OpenCode tem ele aberto num repositório na maior parte do tempo — e o
+ * primeiro /setup real criou um diário dentro de um repo de código. O modelo não
+ * tem como saber; o disco sabe.
+ */
+export function pareceProjeto(dir) {
+  const pistas = [
+    ".git", "package.json", "node_modules", "Cargo.toml", "go.mod", "pom.xml",
+    "pyproject.toml", "requirements.txt", "Gemfile", "composer.json", "src", "Makefile",
+  ]
+  return pistas.filter((p) => existsSync(join(dir, p))).length >= 1
+}
+
 const DIA_MS = 86400000
 const SEMANA = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"]
 const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`

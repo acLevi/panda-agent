@@ -34,6 +34,7 @@ Rode `ls -a` e decida a **pasta-base**, nesta ordem:
 | `.panda/PERFIL.md` aqui | `.` — o setup já rodou nesta pasta |
 | `panda/.panda/PERFIL.md` | `panda/` — o setup já rodou, ela abriu na pasta pessoal |
 | `.obsidian/`, ou vários `.md` na raiz | `.` — ela já tem um vault de notas, trabalhe nele |
+| a pasta parece **projeto de código** | **nenhuma** — não crie nada aqui, veja abaixo |
 | qualquer outra coisa | `panda/` — crie |
 
 Isso é detecção, não pergunta: nada de "onde você quer?", "prefere outro lugar?", "posso criar em
@@ -59,6 +60,16 @@ já tem e **adapte-se ao formato dela** em vez de criar estrutura por cima. Duas
   preciso acrescentar um campo no seu modelo de nota diária. Posso?"* Se ela não quiser, diga com
   todas as letras que então você **não vai conseguir contar** — e não registre o hábito como se
   fosse funcionar. Prometer acompanhamento que não acontece é pior que não acompanhar.
+
+**Se a pasta parecer um projeto de código** — tem `.git`, `package.json`, `src/`, `Cargo.toml` ou
+parecidos — **não crie nada aqui.** Diário dentro de repositório acaba num commit sem querer e some
+quando a pessoa apagar o clone. Diga que esta pasta parece de trabalho e pergunte onde as notas
+devem ficar; a pasta pessoal é o normal. O bloco "Situação atual" avisa quando é esse o caso — mas
+sem o bloco, olhe você mesmo antes de criar.
+
+> Isso aconteceu de verdade no primeiro uso real: o OpenCode estava aberto num repositório, e o
+> `/setup` criou um diário inteiro lá dentro. Quem usa OpenCode tem ele aberto em código na maior
+> parte do tempo — a pasta atual **não** é uma boa aposta pra onde as notas devem morar.
 
 **Se for criar `panda/`**: não anuncie como decisão técnica no meio da conversa. Crie quando chegar
 a hora de gravar e conte na mensagem 7, quando ela já sabe o que ganhou.

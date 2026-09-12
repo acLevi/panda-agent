@@ -9,7 +9,7 @@ import { dirname, join, relative, sep } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { calcularHabitos, formatarParaOModelo, descobrirBase, pastaDoDiario } from "./habitos.js"
-import { situacao } from "./situacao.js"
+import { situacao, pareceProjeto } from "./situacao.js"
 import { separar } from "./markdown.js"
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), "..")
@@ -99,7 +99,22 @@ export const panda = async (entrada) => {
   "experimental.chat.system.transform": async (_input, output) => {
     try {
       const base = descobrirBase(diretorioAtual)
-      if (!base) return
+      if (!base) {
+        // Sem vault aqui. Se a pasta é um projeto de código, avisar importa: é onde
+        // o /setup criaria um diário por engano.
+        if (pareceProjeto(diretorioAtual)) {
+          output.system.push(
+            "## Situação atual (calculado, não inferido)\n\n" +
+              `Hoje é ${new Date().toISOString().slice(0, 10)}.\n` +
+              "Não há notas do Panda nesta pasta, e ela **parece um projeto de código** " +
+              "(tem `.git`, `package.json` ou similar).\n\n" +
+              "**Não crie um diário aqui.** Se pedirem `/setup`, diga que esta pasta é de " +
+              "trabalho e pergunte onde as notas devem ficar — a pasta pessoal é o normal. " +
+              "Diário dentro de repositório vai parar num commit sem querer.",
+          )
+        }
+        return
+      }
       const agora = Date.now()
       if (!cache.texto || agora - cache.quando > 60_000 || cache.base !== base) {
         cache = { texto: situacao(base), quando: agora, base }

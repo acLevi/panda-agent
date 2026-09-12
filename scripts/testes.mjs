@@ -11,7 +11,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync, existsSync } from "node:
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { calcularHabitos, descobrirBase, formatarParaOModelo, pastaDoDiario } from "../plugin/habitos.js"
-import { situacao } from "../plugin/situacao.js"
+import { situacao, pareceProjeto } from "../plugin/situacao.js"
 import { separar, valorDeHabito } from "../plugin/markdown.js"
 import { panda } from "../plugin/index.js"
 
@@ -219,6 +219,28 @@ console.log("\nsituação — o que o Panda sabe antes de perguntarem")
   t("conta tarefas em aberto da última nota", () => contem(s2, "2 tarefas", "situação"))
   t("sem nota na janela, não despeja hábitos zerados", () => {
     if (s2.includes("Hábitos nos últimos")) throw new Error("listou hábitos sem nota nenhuma")
+  })
+}
+
+console.log("\nprojeto de código — onde o diário NÃO pode nascer")
+{
+  const repo = join(raiz, "um-repo")
+  mkdirSync(join(repo, "src"), { recursive: true })
+  writeFileSync(join(repo, "package.json"), "{}")
+  t("reconhece um repositório", () => { if (!pareceProjeto(repo)) throw new Error("não reconheceu") })
+  t("pasta neutra não é projeto", () => {
+    const n = join(raiz, "neutra"); mkdirSync(n, { recursive: true })
+    if (pareceProjeto(n)) throw new Error("falso positivo")
+  })
+  t("avisa pra não criar diário em repositório", async () => {
+    const o = { system: [] }
+    await (await panda({ directory: repo }))["experimental.chat.system.transform"]({}, o)
+    if (!o.system[0]?.includes("Não crie um diário aqui")) throw new Error("não avisou")
+  })
+  t("o /setup sabe recusar a pasta de código", async () => {
+    const { readFileSync: ler } = await import("node:fs")
+    const setup = ler(new URL("../core/command/setup.md", import.meta.url).pathname, "utf8")
+    if (!setup.includes("projeto de código")) throw new Error("regra ausente no /setup")
   })
 }
 
