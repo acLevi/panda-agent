@@ -128,6 +128,13 @@ console.log("\nplugin — o que ele injeta no OpenCode")
   await hv["experimental.chat.system.transform"]({}, out)
   t("injeta a situação quando há vault", () => eq(out.system.length, 1, "blocos"))
   t("o bloco diz que os números são calculados", () => contem(out.system[0], "calculado", "bloco"))
+  t("o bloco informa a pasta-base (evita o agente procurar)", () => contem(out.system[0], "Pasta-base das notas: `.`", "bloco"))
+
+  const casa2 = join(raiz, "casa")
+  const ho = await panda({ directory: casa2 })
+  const oo = { system: [] }
+  await ho["experimental.chat.system.transform"]({}, oo)
+  t("da pasta de cima, o bloco aponta panda/", () => contem(oo.system[0], "Pasta-base das notas: `panda`", "bloco"))
 
   const fora = { system: [] }
   const hf = await panda({ directory: join(raiz, "casa", "Downloads") })
@@ -150,6 +157,11 @@ console.log("\ncomandos e agente — o que não pode voltar")
   t("nenhum comando com nome em inglês", () => {
     const ingles = cmds.filter((f) => !/^(ajustar|diario|habitos|lembrar|planejar|revisar|setup)\.md$/.test(f))
     if (ingles.length) throw new Error(`fora do padrão pt-BR: ${ingles.join(", ")}`)
+  })
+  t("o agente conhece todos os comandos que existem", () => {
+    const orfaos = cmds.map((f) => f.replace(/\.md$/, ""))
+      .filter((n) => !agente.includes(`/${n}`))
+    if (orfaos.length) throw new Error(`o agente nunca cita: ${orfaos.join(", ")}`)
   })
   t("nenhuma referência a comando que não existe mais", () => {
     const mortos = [["core/agent/panda.md", agente], ...cmds.map((f) => [f, readFileSync(join(dir, f), "utf8")])]

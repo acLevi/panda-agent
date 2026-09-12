@@ -5,7 +5,7 @@
 // (symlink dos .md) e o modo de distribuição (este plugin) passam a entregar coisas diferentes.
 
 import { readFileSync, readdirSync } from "node:fs"
-import { dirname, join } from "node:path"
+import { dirname, join, relative, sep } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { calcularHabitos, formatarParaOModelo, descobrirBase } from "./habitos.js"
@@ -82,8 +82,10 @@ export const panda = async (entrada) => {
       if (!cache.texto || agora - cache.quando > 60_000 || cache.base !== base) {
         cache = { texto: situacao(base), quando: agora, base }
       }
+      const rel = base === diretorioAtual ? "." : relative(diretorioAtual, base).split(sep).join("/")
       output.system.push(
         "## Situação atual (calculado, não inferido)\n\n" +
+          `Pasta-base das notas: \`${rel}\` — use este prefixo em todo caminho; não precisa procurar.\n` +
           cache.texto +
           "\n\nSão fatos exatos, apurados agora a partir das notas. Use-os como estão — " +
           "principalmente a data de hoje, que você não deve deduzir. O quanto comentar isso " +
