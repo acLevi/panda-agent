@@ -363,6 +363,14 @@ console.log("\ncomandos e agente — o que não pode voltar")
     // existe para o dia em que um agente de programação abrir a pasta.
     if (!setup.includes("não é pra você")) throw new Error("AGENTS.md voltou a ser repetição do prompt")
   })
+  t("o agente sabe apresentar comandos quando começam a servir", () => {
+    // O /setup ensina três. Sem esta regra, os outros quatro ficam invisíveis
+    // pra sempre — e ferramenta que ninguém descobre é ferramenta que não existe.
+    if (!/começar a servir|passa a fazer sentido/.test(agente)) throw new Error("sumiu a apresentação progressiva")
+    for (const c of ["lembrar", "habitos", "revisar"]) {
+      if (!new RegExp(`\\| \`/${c}`).test(agente)) throw new Error(`não diz quando apresentar /${c}`)
+    }
+  })
   t("o agente conhece todos os comandos que existem", () => {
     const orfaos = cmds.map((f) => f.replace(/\.md$/, ""))
       .filter((n) => !agente.includes(`/${n}`))

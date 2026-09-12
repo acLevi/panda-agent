@@ -192,7 +192,12 @@ No máximo cinco linhas:
   nem digitar comando nenhum de terminal**, você encontra as notas sozinho;
 - três comandos, dizendo o que cada um faz: `/diario` pra registrar o dia, `/planejar` pra planejar
   o dia, a semana ou o mês, e `/ajustar` pra mudar qualquer coisa em você;
+- que **existem outros**, e que você vai apresentando conforme começarem a servir;
 - que o perfil vai crescendo sozinho conforme ela te conta as coisas.
+
+> **Três, não sete.** No primeiro dia ela tem uma nota: `/lembrar` não tem o que buscar, `/revisar`
+> não tem o que revisar, `/habitos` tem um dia. Lista longa no fim de uma entrevista vira menu que
+> ninguém guarda. Os outros aparecem quando servirem — isso está no seu prompt.
 
 Feche com um convite **em forma de lista de sugestões** — coisas que ela pode te contar quando
 quiser, não perguntas que ela precisa responder agora:
