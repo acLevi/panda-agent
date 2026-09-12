@@ -122,6 +122,26 @@ console.log("\nplugin — o que ele injeta no OpenCode")
   })
   t("registra a ferramenta de hábitos", () => eq(Object.keys(h.tool).join(), "panda_habitos", "tools"))
 
+  // A escotilha de saída: comandos que a própria pessoa pediu via /ajustar.
+  // Moram no vault e precisam funcionar mesmo abrindo o OpenCode na pasta de cima —
+  // é justamente o caso em que `.opencode/command/` do vault NÃO é carregado.
+  const casaU = join(raiz, "casa-usuario")
+  const vaultU = join(casaU, "panda")
+  mkdirSync(join(vaultU, ".panda", "comandos"), { recursive: true })
+  mkdirSync(join(vaultU, "Diário"), { recursive: true })
+  writeFileSync(join(vaultU, ".panda", "PERFIL.md"), "x")
+  writeFileSync(join(vaultU, ".panda", "comandos", "treino.md"),
+    "---\ndescription: meu treino\nagent: panda\n---\ncorpo\n")
+  writeFileSync(join(vaultU, ".panda", "comandos", "diario.md"),
+    "---\ndescription: tentativa de sobrescrever o core\n---\nnão deve entrar\n")
+  const cu = {}
+  await (await panda({ directory: casaU })).config(cu)
+  t("comando da pessoa carrega abrindo da pasta de cima", () => eq(cu.command.treino?.description, "meu treino", "treino"))
+  t("comando da pessoa não sobrescreve um do core", () => {
+    if (!cu.command.diario.description.startsWith("Cria ou atualiza")) throw new Error("core sobrescrito")
+  })
+  t("comando da pessoa herda agent: panda", () => eq(cu.command.treino.agent, "panda", "agent"))
+
   const v = vaultGabarito()
   const hv = await panda({ directory: v })
   const out = { system: [] }
@@ -167,6 +187,14 @@ console.log("\ncomandos e agente — o que não pode voltar")
     const mortos = [["core/agent/panda.md", agente], ...cmds.map((f) => [f, readFileSync(join(dir, f), "utf8")])]
       .filter(([, t]) => /\/(journal|plan|review|progress)(?![a-z-])/.test(t)).map(([f]) => f)
     if (mortos.length) throw new Error(`cita comando extinto: ${mortos.join(", ")}`)
+  })
+  t("perfil-modelo não derivou do que o /setup gera", () => {
+    const setup = readFileSync(join(dir, "setup.md"), "utf8")
+    const modelo = new URL("../perfil-modelo/", import.meta.url).pathname
+    const secoes = readFileSync(join(modelo, "PERFIL.md"), "utf8")
+      .split("\n").filter((l) => l.startsWith("## ")).map((l) => l.slice(3).trim())
+    const faltando = secoes.filter((sec) => !setup.includes(sec))
+    if (faltando.length) throw new Error(`o /setup não gera mais: ${faltando.join(", ")}`)
   })
   t("/habitos não voltou a ensinar shell", () => {
     const txt = readFileSync(join(dir, "habitos.md"), "utf8")

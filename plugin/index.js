@@ -61,6 +61,30 @@ export const panda = async (entrada) => {
           ...config.command[nome],
         }
       }
+      // Comandos que a própria pessoa pediu, via /ajustar. Moram DENTRO do vault
+      // (`.panda/comandos/`), então viajam no backup junto com as notas — e o
+      // plugin injeta, então funcionam mesmo quando ela abre o OpenCode na pasta
+      // de cima. Deixar em `.opencode/command/` do vault não funcionaria: o
+      // OpenCode só carrega esse diretório relativo ao cwd, e o vault costuma ser
+      // uma subpasta.
+      const base = descobrirBase(diretorioAtual)
+      if (base) {
+        const seus = join(base, ".panda", "comandos")
+        let arquivos = []
+        try { arquivos = readdirSync(seus) } catch { /* não existe: normal */ }
+        for (const arquivo of arquivos) {
+          if (!arquivo.endsWith(".md")) continue
+          const nome = arquivo.slice(0, -3)
+          // Um comando do core nunca é substituído por um dela sem querer.
+          if (config.command[nome]) continue
+          const { meta, corpo } = ler(join(seus, arquivo))
+          config.command[nome] = {
+            template: corpo,
+            description: meta.description,
+            agent: meta.agent ?? "panda",
+          }
+        }
+      }
     } catch (erro) {
       // Um Panda quebrado não pode impedir o OpenCode de abrir.
       console.error("[panda] não consegui carregar os arquivos do agente:", erro?.message ?? erro)

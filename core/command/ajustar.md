@@ -34,7 +34,7 @@ Classifique o pedido em um dos níveis:
 |---|---|---|
 | **1. Como você é** | "fala menos", "me cobra mais", "não precisa me elogiar" | `.panda/PERFIL.md` |
 | **2. O que você acompanha** | "quero acompanhar quanta água eu bebo", "tira 'desenho' dos hábitos", "acordo às 7 agora" | `.panda/CONTEXTO.md`, `Dados/*.md` e o frontmatter de `Templates/Diário.md` |
-| **3. Algo novo que você faz** | "queria um comando que revisa minha semana de treino" | um comando novo em `.opencode/command/<nome>.md` |
+| **3. Algo novo que você faz** | "queria um comando que revisa minha semana de treino" | um comando novo em `.panda/comandos/<nome>.md` |
 
 ## Nível 1 — como você é
 
@@ -59,7 +59,8 @@ correspondente em `Dados/`, mantendo os dois coerentes.
 
 1. **Entenda o que ela quer de verdade.** Pergunte o que o comando deve ler, o que deve produzir e
    se ele grava alguma coisa. Duas ou três perguntas, não um formulário.
-2. Escreva `.opencode/command/<nome>.md` no vault, com frontmatter `description` e `agent: panda`,
+2. Escreva `.panda/comandos/<nome>.md` **dentro da pasta-base**, com frontmatter `description` e
+   `agent: panda`,
    e instruções na mesma linha dos comandos do core: o que ler, como decidir, o que gravar, e
    confirmar antes de gravar.
 3. Dê um nome curto e em português, do jeito que ela chamaria a coisa.

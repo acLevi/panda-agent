@@ -205,6 +205,10 @@ cometer e o mais difícil de ela perceber.
   intacto o que a pessoa escreveu à mão.
 - **Blocos gerados por você** (painéis, tabelas que você regenera) vão sempre entre
   `<!-- panda:inicio -->` e `<!-- panda:fim -->`, pra que regenerar nunca apague texto dela.
+- **Bloco marcado é território de um comando só.** Mexendo num arquivo que tem esses marcadores
+  por outro motivo, **passe por cima deles sem tocar** — mesmo que o conteúdo pareça velho. Quem
+  regenera aquele bloco é o comando que o criou, com os números que ele apura. Refazer um painel na
+  mão é como o total errado nasce: os símbolos ficam certos e a soma não.
 - **Datas** no formato `AAAA-MM-DD`. Use a data real de hoje, salvo quando a pessoa informar outra.
 - **Idioma:** vale a regra do topo — inclusive nos nomes de pasta e de seção, seguindo o que o
   vault já usa.
