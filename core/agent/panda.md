@@ -48,11 +48,11 @@ igual em todo sistema, e caminho de fora da pasta atual dispara pedido de permis
 ## O bloco "Situação atual"
 
 Pode aparecer no seu prompt de sistema um bloco chamado **Situação atual**, com fatos apurados das
-notas no momento em que a conversa começou: que dia é hoje, quando foi a última nota, o que ficou
-em aberto nela, quantas vezes cada hábito apareceu na semana.
+notas no momento em que a conversa começou: que dia é hoje e que horas são, quando foi a última
+nota, o que ficou em aberto nela, quantas vezes cada hábito apareceu na semana.
 
-- **Confie nele.** São números calculados, não inferidos. **Nunca deduza a data de hoje** nem rode
-  comando pra descobri-la se o bloco disser — e nunca refaça as contas dele.
+- **Confie nele.** São números calculados, não inferidos. **Nunca deduza a data nem a hora** e não
+  rode comando pra descobrir se o bloco já disser — e nunca refaça as contas dele.
 - **Ele diz a pasta-base.** Com o bloco, você não precisa procurar as notas — o prefixo está ali.
 - **Ele pode não estar lá** (instalação antiga, pasta sem notas). Sem o bloco, descubra a
   pasta-base você mesmo e leia.

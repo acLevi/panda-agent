@@ -49,7 +49,15 @@ function datasDasNotas(base) {
 export function situacao(base) {
   const hoje = new Date(); hoje.setHours(12, 0, 0, 0)
   const hojeIso = iso(hoje)
-  const linhas = [`Hoje é ${SEMANA[hoje.getDay()]}, ${hojeIso}.`]
+  // A hora entra porque o /diario escolhe entre planejar e registrar por ela.
+  // Sem isso o modelo adivinha o horário — mesmo erro que ele cometia com a data.
+  const agora = new Date()
+  const hora = agora.getHours()
+  // Madrugada é o único período em que não dá pra supor: quem está acordado às 3h
+  // pode estar fechando o dia ou virando a noite no plantão. O /diario pergunta.
+  const periodo = hora < 5 ? "madrugada" : hora < 12 ? "manhã" : hora < 18 ? "tarde" : "noite"
+  const hm = `${String(hora).padStart(2, "0")}:${String(agora.getMinutes()).padStart(2, "0")}`
+  const linhas = [`Hoje é ${SEMANA[hoje.getDay()]}, ${hojeIso}. Agora são ${hm} — ${periodo}.`]
 
   const datas = datasDasNotas(base)
   const ultima = datas[datas.length - 1] ?? null

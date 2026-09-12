@@ -13,8 +13,11 @@ hábitos acompanhados e a rotina saem de lá — não de um modelo fixo.
 - `$ARGUMENTS` com algo como "planejar", "manhã", "começar o dia" → **planejamento**.
 - `$ARGUMENTS` com algo como "escrever", "fim do dia", "fechar o dia" → **registro**.
 - `$ARGUMENTS` com uma data → use essa data.
-- **Vazio:** decida pelo horário atual (manhã → planejamento, fim de tarde/noite → registro) e
-  diga qual modo você escolheu, pra pessoa poder corrigir numa palavra.
+- **Vazio:** decida pelo período que o bloco "Situação atual" informa — manhã → planejamento,
+  tarde ou noite → registro. **Madrugada → pergunte**: às 3h ela tanto pode estar fechando o dia
+  quanto começando um plantão, e supor errado faz você propor a coisa errada. **Não adivinhe a hora nem rode comando pra descobrir**; se o bloco não
+  estiver lá, pergunte a ela em vez de chutar. Diga qual modo você escolheu, pra ela poder corrigir
+  numa palavra.
 
 ## Modo registro (fim do dia)
 
@@ -31,7 +34,8 @@ A pessoa conta o dia em linguagem livre — não exija formato, não faça quest
    nota do dia são dela — nunca escreva no lugar dela.
 5. **Confirme antes de gravar**, principalmente os hábitos e os campos subjetivos.
 
-Arquivo: `Diário/<ANO>/<MÊS>/<ANO-MÊS-DIA>.md`.
+Arquivo: `Diário/AAAA/MM/AAAA-MM-DD.md` — ano com quatro dígitos, mês com dois (`09`, nunca
+`setembro` nem `9`). Ex.: `Diário/2026/09/2026-09-12.md`.
 
 **Se a nota do dia já existir**, não crie outra e não sobrescreva: leia o que está lá e
 **complemente** — some o que é novo, atualize os hábitos e preserve tudo que ela escreveu à mão.

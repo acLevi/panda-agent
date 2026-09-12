@@ -115,6 +115,9 @@ console.log("\nsituação — o que o Panda sabe antes de perguntarem")
   const v = vaultGabarito()
   const s = situacao(v)
   t("informa a data de hoje", () => contem(s, dia(0), "situação"))
+  t("informa a hora (o /diario escolhe o modo por ela)", () => {
+    if (!/Agora são \d{2}:\d{2} — (madrugada|manhã|tarde|noite)/.test(s)) throw new Error("sem hora no bloco")
+  })
   t("reconhece que a nota de hoje existe", () => contem(s, "nota de hoje já existe", "situação"))
   t("resume os hábitos da semana", () => contem(s, "agua 5/7", "situação"))
 
