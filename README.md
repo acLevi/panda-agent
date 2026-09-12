@@ -45,13 +45,16 @@ suas notas sozinho — você não precisa entrar em pasta nenhuma nem digitar co
 | Comando | O que faz |
 |---|---|
 | `/setup` | primeira conversa: te conhece e prepara suas notas |
-| `/journal` | registra como foi o dia, ou planeja o dia de manhã |
-| `/plan` | planeja a semana, o mês ou o trimestre |
-| `/review` | revisa um período que terminou, sem maquiar o resultado |
-| `/progress` | como você está indo em relação ao que planejou |
+| `/diario` | registra como foi o dia, ou planeja o dia de manhã |
+| `/planejar` | planeja a semana, o mês ou o trimestre |
+| `/revisar` | como você está indo — e, com um período, fecha a semana ou o mês |
 | `/habitos` | painel dos seus hábitos: últimos dias, totais e sequências |
 | `/lembrar` | procura no que você já escreveu — sempre dizendo em que nota achou |
 | `/ajustar` | muda qualquer coisa nele: o jeito de falar, os hábitos, ou um comando novo |
+
+O `/revisar` tem dois usos: **sem nada**, é um panorama rápido do momento e não escreve nada;
+**com um período** (`/revisar semana`), fecha o que terminou e grava a revisão que o próximo
+planejamento vai ler.
 
 O `/ajustar` é o que faz ele ser seu: "fala menos", "quero acompanhar quanta água eu bebo",
 "queria um jeito rápido de ver o que fiz na semana" — ele entende e se reconfigura sozinho.

@@ -149,13 +149,13 @@ Pare.
 
 ### Mensagem 6 — escreva a primeira nota
 
-Escute o que ela contou e faça o que o `/journal` faz no modo registro: organize no formato dela,
+Escute o que ela contou e faça o que o `/diario` faz no modo registro: organize no formato dela,
 marque os hábitos que ela mencionou, confirme, grave em `Diário/<ANO>/<MÊS>/<AAAA-MM-DD>.md`.
 
 Mostre como ficou e diga, em uma frase, que essa nota é dela: é um arquivo de texto comum, que ela
 pode abrir e editar quando quiser, com ou sem você.
 
-Se ela não quiser escrever agora, tudo bem — diga que é só chamar `/journal` quando quiser.
+Se ela não quiser escrever agora, tudo bem — diga que é só chamar `/diario` quando quiser.
 
 ### Mensagem 7 — fechar
 
@@ -164,7 +164,7 @@ No máximo cinco linhas:
 - **onde ficaram as notas**: numa pasta chamada `panda`, ali onde ela está. Diga que amanhã é só
   abrir o OpenCode do mesmo jeito que abriu hoje e te chamar — **ela não precisa entrar na pasta
   nem digitar comando nenhum de terminal**, você encontra as notas sozinho;
-- três comandos, dizendo o que cada um faz: `/journal` pra registrar o dia, `/plan` pra planejar
+- três comandos, dizendo o que cada um faz: `/diario` pra registrar o dia, `/planejar` pra planejar
   o dia, a semana ou o mês, e `/ajustar` pra mudar qualquer coisa em você;
 - que o perfil vai crescendo sozinho conforme ela te conta as coisas.
 
@@ -218,7 +218,7 @@ Grave nesta ordem. Não invente conteúdo: onde ela não disse nada, escreva `<a
 exige permissão; nunca sobrescrever nota existente; markdown puro com wikilinks e checklists.
 
 **Pastas** — crie só `Diário/`, `Dados/` e `Templates/`. `Planejamento/` e `Revisões/` **não**
-nascem agora: aparecem sozinhas no dia em que ela usar o `/plan` ou o `/review` pela primeira vez.
+nascem agora: aparecem sozinhas no dia em que ela usar o `/planejar` ou o `/revisar` pela primeira vez.
 Pasta vazia esperando uso é confusão, não organização.
 
 **`Templates/Diário.md`** — com as categorias e hábitos **dela**:

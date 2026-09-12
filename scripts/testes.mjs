@@ -109,8 +109,8 @@ console.log("\nplugin — o que ele injeta no OpenCode")
     if (cfg.agent.panda.prompt.startsWith("---")) throw new Error("frontmatter vazou pro prompt")
   })
   t("prompt não está vazio", () => { if (cfg.agent.panda.prompt.length < 2000) throw new Error("prompt curto demais") })
-  t("registra os oito comandos", () => eq(Object.keys(cfg.command).sort().join(","),
-    "ajustar,habitos,journal,lembrar,plan,progress,review,setup", "comandos"))
+  t("registra os sete comandos", () => eq(Object.keys(cfg.command).sort().join(","),
+    "ajustar,diario,habitos,lembrar,planejar,revisar,setup", "comandos"))
   t("todo comando aponta pro agente panda", () => {
     const erradas = Object.entries(cfg.command).filter(([, c]) => c.agent !== "panda").map(([n]) => n)
     if (erradas.length) throw new Error(`sem agent panda: ${erradas.join(", ")}`)
@@ -147,6 +147,15 @@ console.log("\ncomandos e agente — o que não pode voltar")
       .filter(([, txt]) => /\bLevi\b|Gandalf|roadmap\.sh|Deitel/i.test(txt)).map(([f]) => f)
     if (sujos.length) throw new Error(`referência pessoal em: ${sujos.join(", ")}`)
   })
+  t("nenhum comando com nome em inglês", () => {
+    const ingles = cmds.filter((f) => !/^(ajustar|diario|habitos|lembrar|planejar|revisar|setup)\.md$/.test(f))
+    if (ingles.length) throw new Error(`fora do padrão pt-BR: ${ingles.join(", ")}`)
+  })
+  t("nenhuma referência a comando que não existe mais", () => {
+    const mortos = [["core/agent/panda.md", agente], ...cmds.map((f) => [f, readFileSync(join(dir, f), "utf8")])]
+      .filter(([, t]) => /\/(journal|plan|review|progress)(?![a-z-])/.test(t)).map(([f]) => f)
+    if (mortos.length) throw new Error(`cita comando extinto: ${mortos.join(", ")}`)
+  })
   t("/habitos não voltou a ensinar shell", () => {
     const txt = readFileSync(join(dir, "habitos.md"), "utf8")
     // As menções permitidas explicam POR QUE não se usa shell; receita, não.
@@ -161,7 +170,7 @@ console.log("\ncomandos e agente — o que não pode voltar")
   })
   t("o agente proíbe deduzir a data", () => contem(agente, "deduza a data", "agente"))
   t("quem reporta hábito usa a ferramenta, não conta à mão", () => {
-    const devem = ["habitos.md", "progress.md", "review.md"]
+    const devem = ["habitos.md", "revisar.md"]
     const sem = devem.filter((f) => !readFileSync(join(dir, f), "utf8").includes("panda_habitos"))
     if (sem.length) throw new Error(`contam hábito sem a ferramenta: ${sem.join(", ")}`)
   })

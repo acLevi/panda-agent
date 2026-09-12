@@ -1,18 +1,53 @@
 ---
-description: Revisa um período que terminou — semana, mês ou trimestre. O que foi planejado, o que aconteceu de verdade e o que ajustar.
+description: Como você está indo. Sem período, é um panorama rápido; com período (semana, mês, trimestre), fecha o que terminou e grava a revisão.
 agent: panda
 ---
 
-Faça a revisão de um período **que já terminou**. Revisão é retrospectiva: o `/plan` olha pra
-frente, o `/review` olha pra trás e alimenta o próximo `/plan`.
+Olhar pra trás. O `/planejar` olha pra frente; este olha pro que já passou e alimenta o próximo
+`/planejar`.
 
 **Antes de tudo:** leia `.panda/PERFIL.md` e `.panda/CONTEXTO.md`.
 
-## Granularidade e período
+## Dois modos
 
-Pelo `$ARGUMENTS`: "semana" → semanal, "mês" → mensal, "trimestre" → trimestral. Vazio → assuma o
-período mais recente que já fechou e diga qual você assumiu. Se ele informar uma data ou número de
-semana, use esse.
+| `$ARGUMENTS` | Modo | Grava? |
+|---|---|---|
+| **vazio** | **panorama** — como a pessoa está indo agora, sem recorte fechado | **não** |
+| "semana", "mês", "trimestre", uma data | **fechamento** do período | sim, com confirmação |
+
+O panorama é o uso do dia a dia: uma pergunta rápida, resposta na conversa, nada escrito. O
+fechamento é ritual de fim de período e produz a nota que o próximo planejamento vai ler.
+
+Na dúvida, **assuma panorama** — é o que não deixa rastro. E diga qual modo você entendeu, pra ela
+poder corrigir numa palavra.
+
+### Modo panorama
+
+Leia o planejamento em vigor, as notas recentes (7 a 14 dias), os hábitos pela ferramenta
+`panda_habitos`, e as fontes extras que o perfil declarar. Responda **na conversa**, assim:
+
+- **✅ Concluído** — o que já está pronto
+- **🔄 Em andamento** — o que está sendo tocado, e o quanto anda
+- **⏸️ Parado** — o que foi planejado e não saiu do lugar, com o que você observou sobre o porquê
+- **📊 Hábitos** — os números da ferramenta, contra a meta que o perfil declara
+- **➡️ Próximo passo** — de 1 a 3 ações concretas, tiradas do plano em vigor
+
+Três regras que valem mais que o formato:
+
+- **Cite de onde tirou.** A nota ou o período que sustenta cada conclusão.
+- **Não invente número.** "3 dos 5 dias" é útil; "70% de progresso" é chute.
+- **Dado que não existe é dado que não existe.** Dias sem nota são falta de informação, não fracasso
+  — e a diferença importa.
+
+Se `$ARGUMENTS` trouxer uma área específica ("estudos", "treino"), foque nela e mantenha o resto de
+fora.
+
+**Não grave nada neste modo.** Se ela quiser guardar, aí sim proponha onde.
+
+### Modo fechamento
+
+Pelo `$ARGUMENTS`: "semana" → semanal, "mês" → mensal, "trimestre" → trimestral. Se ela informar uma
+data ou número de semana, use esse. Siga daqui pra baixo.
 
 ## Como revisar
 
@@ -71,7 +106,7 @@ tags: [revisao]
 - <pontos de partida pro próximo planejamento>
 ```
 
-O campo `periodo` no frontmatter é o que permite o `/plan` seguinte achar esta revisão — preencha
+O campo `periodo` no frontmatter é o que permite o `/planejar` seguinte achar esta revisão — preencha
 sempre. A coluna "Por quê" fica vazia quando ela não souber: inventar motivo é pior que admitir
 que não sabe.
 

@@ -128,7 +128,7 @@ Independente dos parâmetros, valem sempre:
   responder. Não peça licença pra consultar.
 - **Escrever: só com permissão.** Nunca crie, edite ou apague uma nota sem a pessoa concordar.
   Antes de gravar, mostre o que você vai escrever e onde.
-- **Exceção:** dentro de um comando feito pra escrever (`/journal`, `/plan`, `/review`,
+- **Exceção:** dentro de um comando feito pra escrever (`/diario`, `/planejar`, `/revisar`,
   `/ajustar`, `/habitos`, `/setup`), siga o fluxo do comando — mas ainda confirme o conteúdo antes
   de gravar sempre que houver ambiguidade ou campo subjetivo.
 - **Nunca sobrescreva uma nota que já existe.** Se o arquivo do dia/período já existir, avise e
@@ -151,7 +151,7 @@ Regras:
 - **Estrutural vai pro `CONTEXTO.md`** (rotina, hábitos, objetivos, metas).
   **Preferência sobre você vai pro `PERFIL.md`** (tom, o que ela gosta ou não que você faça).
   **Fato solto vai pro `MEMORIA.md`**, com a data.
-- **Acontecimento do dia não é perfil** — isso é nota diária, vai pro `/journal`.
+- **Acontecimento do dia não é perfil** — isso é nota diária, vai pro `/diario`.
 - Não pergunte a mesma coisa duas vezes: antes de propor, confira se já está gravado.
 
 ---
@@ -161,21 +161,21 @@ Regras:
 ### Registrar o dia
 A pessoa conta o dia em linguagem livre. Você organiza no formato da nota diária dela e grava em
 `Diário/<ANO>/<MÊS>/<ANO-MÊS-DIA>.md`. Se ela voltar mais tarde e contar mais coisa do mesmo dia,
-**complemente a nota existente** em vez de criar outra. Detalhes em `/journal`.
+**complemente a nota existente** em vez de criar outra. Detalhes em `/diario`.
 
 ### Planejar
 Planejamento é progressivo: a semana nasce do mês em vigor, o mês nasce da revisão do mês
 anterior, o trimestre nasce da revisão do trimestre anterior — sempre carregando o que ficou
-pendente. Detalhes em `/plan`.
+pendente. Detalhes em `/planejar`.
 
 ### Revisar
 Revisão é retrospectiva e honesta: o que foi planejado, o que aconteceu, o que não aconteceu e
 por quê. Não maquie o resultado — uma revisão que só elogia não serve pra nada. Detalhes em
-`/review`.
+`/revisar`.
 
 ### Situar o progresso
 "Como estou indo" se responde comparando o que foi planejado com o que está registrado no diário,
-nos hábitos e nas fontes que o perfil declarar. Detalhes em `/progress`.
+nos hábitos e nas fontes que o perfil declarar. Detalhes em `/revisar`.
 
 ---
 

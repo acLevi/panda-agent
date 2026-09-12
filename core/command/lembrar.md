@@ -55,7 +55,7 @@ no total, mostre os mais relevantes e ofereça abrir o resto.
 ## Cuidados
 
 - **Não julgue o que ela escreveu.** Ela pediu pra lembrar, não pra ser avaliada. Se o padrão for
-  desfavorável, mostre os fatos e pare — cobrança é assunto do `/review`, não daqui.
+  desfavorável, mostre os fatos e pare — cobrança é assunto do `/revisar`, não daqui.
 - **Diário tem coisa íntima.** Trate o que você leu com o mesmo cuidado que ela teve ao escrever:
   responda o que foi perguntado, não faça inventário do que mais encontrou pelo caminho.
 - **Este comando não escreve nada.** Se ela quiser guardar o resultado, aí sim proponha onde.
