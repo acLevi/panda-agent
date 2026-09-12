@@ -53,10 +53,22 @@ export function calcularHabitos(base, dias = 7) {
   for (let i = dias - 1; i >= 0; i--) janela.push(iso(new Date(hoje.getTime() - i * DIA_MS)))
 
   const lidas = new Map()
+  const ilegiveis = new Set()
   const ler = (data) => {
     if (!lidas.has(data)) {
       const p = notas.get(data)
-      lidas.set(data, p ? separar(readFileSync(p, "utf8")).meta : null)
+      let meta = null
+      if (p) {
+        try {
+          meta = separar(readFileSync(p, "utf8")).meta
+        } catch {
+          // Arquivo travado por sincronização (OneDrive, Dropbox) ou sem permissão.
+          // Pular é obrigatório — mas some da contagem, então isso PRECISA aparecer
+          // no resultado. Contagem menor sem aviso é o pior erro que este código pode ter.
+          ilegiveis.add(data)
+        }
+      }
+      lidas.set(data, meta)
     }
     return lidas.get(data)
   }
@@ -90,7 +102,13 @@ export function calcularHabitos(base, dias = 7) {
     return linha
   })
 
-  return { semHabitos: false, janela, linhas, notasNaJanela: janela.filter((d) => notas.has(d)).length }
+  return {
+    semHabitos: false,
+    janela,
+    linhas,
+    notasNaJanela: janela.filter((d) => notas.has(d)).length,
+    ilegiveis: [...ilegiveis].sort(),
+  }
 }
 
 /** Texto determinístico pro modelo transcrever — ele formata, não calcula. */
@@ -113,7 +131,15 @@ export function formatarParaOModelo(r) {
     }
     L.push("")
   }
-  L.push("Estes números são exatos. Use-os como estão; não recalcule nem arredonde.")
+  if (r.ilegiveis?.length) {
+    L.push(
+      `ATENÇÃO: ${r.ilegiveis.length} nota(s) não puderam ser lidas (${r.ilegiveis.join(", ")}) — ` +
+        "provavelmente travadas por sincronização de nuvem. Os números abaixo NÃO incluem esses dias. " +
+        "Diga isso a ela em vez de apresentar a contagem como completa.",
+    )
+    L.push("")
+  }
+  L.push("Estes números são exatos para os dias que deu pra ler. Use-os como estão; não recalcule.")
   return L.join("\n")
 }
 

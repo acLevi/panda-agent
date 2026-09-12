@@ -10,7 +10,7 @@
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync, existsSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import { calcularHabitos, descobrirBase } from "../plugin/habitos.js"
+import { calcularHabitos, descobrirBase, formatarParaOModelo } from "../plugin/habitos.js"
 import { situacao } from "../plugin/situacao.js"
 import { separar, valorDeHabito } from "../plugin/markdown.js"
 import { panda } from "../plugin/index.js"
@@ -97,6 +97,38 @@ console.log("\nvault sem hábitos e vault vazio")
   t("sem template, avisa em vez de inventar", () => eq(calcularHabitos(v, 7).semHabitos, true, "semHabitos"))
   const vazio = join(raiz, "vazio"); mkdirSync(vazio, { recursive: true })
   t("pasta sem diário não é pasta-base", () => eq(descobrirBase(vazio), null, "descobrirBase"))
+}
+
+console.log("\nvault bagunçado — nada pode derrubar o OpenCode")
+{
+  const { chmodSync } = await import("node:fs")
+  const bagunca = {
+    "perfil vazio": (v) => writeFileSync(join(v, ".panda", "PERFIL.md"), ""),
+    "template sem frontmatter": (v) => writeFileSync(join(v, "Templates", "Diário.md"), "só texto"),
+    "nome de arquivo com data inválida": (v) => writeFileSync(join(v, "Diário", "2026-13-45.md"), "---\nagua: true\n---"),
+    "frontmatter não fechado": (v) => writeFileSync(join(v, "Diário", "2026-09-11.md"), "---\nagua: true\nsem fim"),
+    "nota travada pela sincronização": (v) => {
+      const f = join(v, "Diário", "2026-09-10.md")
+      writeFileSync(f, "---\nagua: true\n---"); chmodSync(f, 0)
+    },
+  }
+  let i = 0
+  for (const [nome, montar] of Object.entries(bagunca)) {
+    const v = join(raiz, `bagunca-${i++}`)
+    mkdirSync(join(v, ".panda"), { recursive: true })
+    mkdirSync(join(v, "Templates"), { recursive: true })
+    mkdirSync(join(v, "Diário"), { recursive: true })
+    writeFileSync(join(v, ".panda", "PERFIL.md"), "---\ntipo: perfil\n---\nAna")
+    writeFileSync(join(v, "Templates", "Diário.md"), "---\ndate: x\nagua: false\n---")
+    montar(v)
+    t(nome, () => { calcularHabitos(v, 7); situacao(v) })
+  }
+  // Sumir em silêncio é pior que quebrar: o número fica menor e ninguém sabe.
+  const trancado = join(raiz, "bagunca-4")
+  t("nota ilegível é reportada, não engolida", () => {
+    const r = calcularHabitos(trancado, 7)
+    if (!r.ilegiveis?.length) throw new Error("não reportou a nota que não deu pra ler")
+  })
 }
 
 console.log("\npasta-base — a pessoa abre onde o OpenCode abriu")
