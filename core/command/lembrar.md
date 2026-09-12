@@ -30,11 +30,16 @@ possível deste comando.
    pasta de notas — nunca abra "algumas notas recentes" e conclua a partir delas. Uma resposta
    baseada nas 5 notas que você por acaso leu é pior que nenhuma, porque parece completa.
 
-3. **Busque as variações.** Quem escreve diário não usa sempre a mesma palavra: "joelho" pode
-   aparecer como "perna", "lesão", "fisio". Tente duas ou três formas antes de concluir que não
-   existe.
+3. **Busque ignorando maiúsculas e minúsculas.** Isto não é detalhe: em português, toda palavra
+   que começa uma frase aparece capitalizada. Buscar `enxaqueca` e não achar `Enxaqueca` faz você
+   dizer "aconteceu 2 vezes" quando foram 3 — errado, e com cara de certo. Se a sua ferramenta de
+   busca tiver a opção de ignorar caixa, ligue-a sempre; se não tiver, procure as duas formas.
 
-4. **Leia as notas que casaram**, não só a linha do resultado. O contexto em volta costuma ser o
+4. **Busque as variações.** Quem escreve diário não usa sempre a mesma palavra: "joelho" pode
+   aparecer como "perna", "lesão", "fisio". Tente duas ou três formas antes de concluir que não
+   existe. Vale também a mesma palavra sem acento — muita gente digita "migranea", "voce", "esta".
+
+5. **Leia as notas que casaram**, não só a linha do resultado. O contexto em volta costuma ser o
    que ela realmente quer.
 
 ## Como responder

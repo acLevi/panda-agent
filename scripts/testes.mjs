@@ -310,6 +310,12 @@ console.log("\ncomandos e agente — o que não pode voltar")
     const ingles = cmds.filter((f) => !/^(ajustar|diario|habitos|lembrar|planejar|revisar|setup)\.md$/.test(f))
     if (ingles.length) throw new Error(`fora do padrão pt-BR: ${ingles.join(", ")}`)
   })
+  t("/lembrar manda ignorar maiúsculas na busca", () => {
+    // Em português toda palavra que inicia frase é capitalizada; buscar só a forma
+    // minúscula faz o Panda contar menos ocorrências e responder errado com confiança.
+    const l = readFileSync(join(dir, "lembrar.md"), "utf8")
+    if (!/ignorando maiúsculas|ignorar caixa/i.test(l)) throw new Error("sumiu a regra de caixa")
+  })
   t("comando criado pelo /ajustar tem limites que nem a dona derruba", () => {
     const aj = readFileSync(join(dir, "ajustar.md"), "utf8")
     for (const regra of ["sem confirmação na hora", "fora da pasta-base", "não faz"]) {
