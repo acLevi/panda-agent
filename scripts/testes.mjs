@@ -170,6 +170,36 @@ console.log("\npasta do diário — quem trouxe um vault que já existia")
   })
 }
 
+console.log("\nvault adotado — quem já escrevia antes do Panda")
+{
+  // Reproduz um Obsidian de verdade: diário em `diario/`, modelo com nome próprio,
+  // e campos que NÃO são hábito. Cada um destes já quebrou este caminho.
+  const v = join(raiz, "adotado")
+  mkdirSync(join(v, ".panda"), { recursive: true })
+  mkdirSync(join(v, "Templates"), { recursive: true })
+  mkdirSync(join(v, "diario", "2026"), { recursive: true })
+  writeFileSync(join(v, "Templates", "Meu diário.md"), "---\ntipo: diario\nhumor: \nleitura: 0\n---\n")
+  writeFileSync(join(v, ".panda", "config.json"), JSON.stringify({
+    template_diario: "Templates/Meu diário.md", pasta_diario: "diario", habitos: ["leitura"],
+  }))
+  const hoje = dia(0)
+  writeFileSync(join(v, "diario", "2026", `${hoje}.md`), `---\ntipo: diario\nhumor: 5\nleitura: 40\n---\n`)
+
+  t("acha o diário com nome próprio", () => eq(calcularHabitos(v, 7).notasNaJanela, 1, "notas"))
+  t("usa o modelo de nota dela, não um inventado", () => {
+    const r = calcularHabitos(v, 7)
+    if (r.semHabitos) throw new Error("não achou hábito no modelo dela")
+  })
+  t("campo dela que não é hábito fica de fora do painel", () => {
+    const campos = calcularHabitos(v, 7).linhas.map((l) => l.campo)
+    if (campos.includes("humor")) throw new Error("humor virou hábito")
+    eq(campos.join(), "leitura", "campos")
+  })
+  t("hábito de quantidade é reconhecido no vault adotado", () => {
+    eq(calcularHabitos(v, 7).linhas[0].total, 40, "total")
+  })
+}
+
 console.log("\nsituação — o que o Panda sabe antes de perguntarem")
 {
   const v = vaultGabarito()
@@ -266,6 +296,15 @@ console.log("\ncomandos e agente — o que não pode voltar")
     const sujos = [["core/agent/panda.md", agente], ...cmds.map((f) => [f, readFileSync(join(dir, f), "utf8")])]
       .filter(([, txt]) => /\bLevi\b|Gandalf|roadmap\.sh|Deitel/i.test(txt)).map(([f]) => f)
     if (sujos.length) throw new Error(`referência pessoal em: ${sujos.join(", ")}`)
+  })
+  t("o README lista exatamente os comandos que existem", () => {
+    const readme = readFileSync(new URL("../README.md", import.meta.url).pathname, "utf8")
+    const nomes = cmds.map((f) => f.replace(/\.md$/, ""))
+    const faltando = nomes.filter((n) => !readme.includes(`/${n}`))
+    if (faltando.length) throw new Error(`o README não menciona: ${faltando.join(", ")}`)
+    for (const morto of ["journal", "planejar-antigo", "progress"]) {
+      if (new RegExp(`[\\s·/]${morto}[\\s·\\n]`).test(readme)) throw new Error(`o README ainda cita: ${morto}`)
+    }
   })
   t("nenhum comando com nome em inglês", () => {
     const ingles = cmds.filter((f) => !/^(ajustar|diario|habitos|lembrar|planejar|revisar|setup)\.md$/.test(f))

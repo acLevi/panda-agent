@@ -59,14 +59,47 @@ function notasDiarias(base) {
   return achadas
 }
 
-/** Hábitos = campos do template diário, exceto os de controle. */
+/**
+ * O modelo de nota diária. Normalmente `Templates/Diário.md` — mas quem adotou um
+ * vault que já existia tem o dela, com outro nome, e o /setup respeita isso. Sem
+ * olhar o config, o hábito dessa pessoa nunca seria contado: ficaria registrado no
+ * contexto e invisível aqui, e o /habitos diria que ela não acompanha nada.
+ */
+function templateDiario(base) {
+  try {
+    const cfg = JSON.parse(readFileSync(join(base, ".panda", "config.json"), "utf8"))
+    if (typeof cfg.template_diario === "string") {
+      const alvo = join(base, cfg.template_diario)
+      if (existsSync(alvo)) return alvo
+    }
+  } catch { /* sem config: usa o padrão */ }
+  return join(base, "Templates", "Diário.md")
+}
+
+const CONTROLE = ["date", "tags", "data", "atualizado", "tipo", "aliases", "alias", "cssclass"]
+
+/**
+ * Quais hábitos acompanhar.
+ *
+ * A lista explícita do `config.json` vence. Ela existe por causa dos vaults
+ * adotados: o modelo de nota diária de outra pessoa tem campos que NÃO são
+ * hábitos — um `humor: 5` viraria "humor 3/7 na semana", que é bobagem. Onde a
+ * lista não existe (vault criado pelo próprio /setup), inferir do modelo está
+ * certo, porque ali todo campo foi posto pela pessoa como hábito.
+ */
 function habitosDoTemplate(base) {
-  const alvo = join(base, "Templates", "Diário.md")
-  if (!existsSync(alvo)) return []
-  const campos = separar(readFileSync(alvo, "utf8")).meta
-  return Object.keys(campos)
-    .filter((k) => !["date", "tags", "data", "atualizado", "tipo"].includes(k))
-    .map((k) => ({ campo: k, quantidade: /^-?\d+(\.\d+)?$/.test(campos[k]) }))
+  const alvo = templateDiario(base)
+  const campos = existsSync(alvo) ? separar(readFileSync(alvo, "utf8")).meta : {}
+
+  let lista = null
+  try {
+    const cfg = JSON.parse(readFileSync(join(base, ".panda", "config.json"), "utf8"))
+    if (Array.isArray(cfg.habitos)) lista = cfg.habitos.filter((h) => typeof h === "string")
+  } catch { /* sem config: infere */ }
+
+  const nomes = lista ?? Object.keys(campos).filter((k) => !CONTROLE.includes(k))
+  const quantidade = (k) => /^-?\d+([.,]\d+)?$/.test(campos[k] ?? "")
+  return nomes.map((k) => ({ campo: k, quantidade: quantidade(k) }))
 }
 
 export function calcularHabitos(base, dias = 7) {

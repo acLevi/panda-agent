@@ -44,13 +44,15 @@ Traduza o que ela disse para o parâmetro certo: "me cobra mais" é feedback, n�
 
 ## Nível 2 — o que você acompanha
 
-Um hábito novo mexe em mais de um lugar. Faça os três, ou nenhum:
+Um hábito novo mexe em quatro lugares. Faça os quatro, ou nenhum:
 1. descreva o hábito no `CONTEXTO.md` (o que é, qual a meta, em que dias);
 2. acrescente em `Dados/Hábitos.md`;
-3. acrescente o campo no frontmatter de `Templates/Diário.md`, em `minúsculas_com_underscore`.
+3. acrescente o campo no frontmatter do modelo de nota diária, em `minúsculas_com_underscore`;
+4. acrescente o nome na lista `habitos` do `.panda/config.json` — **é essa lista que a contagem
+   usa**. Sem ela, o hábito existe no papel e nunca é contado.
 
 Notas diárias **antigas não são alteradas** — o hábito passa a valer de hoje em diante. Diga isso
-a ela. Ao remover um hábito, tire dos três lugares e avise que o histórico fica preservado.
+a ela. Ao remover um hábito, tire dos quatro lugares e avise que o histórico fica preservado.
 
 Mudança de rotina, objetivo ou meta segue a mesma ideia: atualize `CONTEXTO.md` e o arquivo
 correspondente em `Dados/`, mantendo os dois coerentes.

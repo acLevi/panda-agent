@@ -49,7 +49,16 @@ contendo "refazer", confirme que o perfil atual será substituído (as notas nun
 recomece.
 
 **Se for um vault que já existe** (terceira linha): avise que você vai trabalhar nas notas que ela
-já tem e **adapte-se ao formato dela** em vez de criar estrutura por cima.
+já tem e **adapte-se ao formato dela** em vez de criar estrutura por cima. Duas coisas nesse caso:
+
+- **Registre no `config.json`** o que é dela: `pasta_diario` (se o diário não se chama `Diário`) e
+  `template_diario` (se o modelo de nota diária tem outro nome). Sem isso você acha as notas hoje
+  e perde amanhã.
+- **Hábito precisa de campo na nota.** Se ela pedir pra acompanhar algum e o modelo dela não tiver
+  o campo, **peça permissão pra acrescentar** — é um arquivo dela: *"pra eu contar sua leitura,
+  preciso acrescentar um campo no seu modelo de nota diária. Posso?"* Se ela não quiser, diga com
+  todas as letras que então você **não vai conseguir contar** — e não registre o hábito como se
+  fosse funcionar. Prometer acompanhamento que não acontece é pior que não acompanhar.
 
 **Se for criar `panda/`**: não anuncie como decisão técnica no meio da conversa. Crie quando chegar
 a hora de gravar e conte na mensagem 7, quando ela já sabe o que ganhou.
@@ -218,6 +227,11 @@ Grave nesta ordem. Não invente conteúdo: onde ela não disse nada, escreva `<a
 { "idioma": "pt-BR", "obsidian": false }
 ```
 `obsidian` só é `true` se você viu uma pasta `.obsidian`.
+
+**Acrescente `"habitos": ["agua", "leitura"]`** com os campos que ela escolheu — é essa lista que a
+ferramenta de contagem usa. Num vault adotado ela é obrigatória: o modelo de nota daquela pessoa
+tem campos que não são hábito (`humor`, `tipo`), e sem a lista eles apareceriam no painel como se
+fossem. Acrescente também `pasta_diario` e `template_diario` quando os nomes diferirem do padrão.
 
 **`AGENTS.md` na raiz** — este arquivo **não é pra você**. Suas regras já estão no seu prompt; se
 fosse só pra você, seria repetição. Ele existe porque o OpenCode o carrega para **qualquer** agente

@@ -81,8 +81,12 @@ Vale saber que existe antes de precisar.
 ```
 core/                  o Panda em si — igual pra todo mundo
   agent/panda.md       persona, regras e limites. Zero dado pessoal
-  command/             setup · journal · plan · review · progress · habitos · ajustar
-plugin/index.js        envelope: lê os .md do pacote e injeta na config do OpenCode
+  command/             setup · diario · planejar · revisar · habitos · lembrar · ajustar
+plugin/                envelope: lê os .md do pacote e injeta na config do OpenCode
+  index.js               agente, comandos, ferramenta e o bloco "Situação atual"
+  habitos.js             conta hábitos das notas — exato, e igual em Windows e Linux
+  situacao.js            o que o Panda sabe antes de a pessoa dizer qualquer coisa
+  markdown.js            o único parser de frontmatter do pacote
 perfil-modelo/         referência do que o /setup gera (não é usado em tempo de execução)
 ```
 
