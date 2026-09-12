@@ -12,6 +12,7 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { calcularHabitos, descobrirBase, formatarParaOModelo, pastaDoDiario } from "../plugin/habitos.js"
 import { situacao, pareceProjeto } from "../plugin/situacao.js"
+import { buscar } from "../plugin/busca.js"
 import { separar, valorDeHabito } from "../plugin/markdown.js"
 import { panda } from "../plugin/index.js"
 
@@ -200,6 +201,38 @@ console.log("\nvault adotado — quem já escrevia antes do Panda")
   })
 }
 
+console.log("\nbusca — o que o modelo não conseguia fazer à mão")
+{
+  const v = join(raiz, "busca")
+  mkdirSync(join(v, "Diário", "2026", "09"), { recursive: true })
+  const nota = (d, txt) => writeFileSync(join(v, "Diário", "2026", "09", `${d}.md`), `---\ndate: ${d}\ntag: insonia\n---\n\n# ${d}\n\n${txt}\n`)
+  nota("2026-09-08", "Insônia de novo. Terceira noite ruim.")   // maiúscula: o caso que falhava
+  nota("2026-09-10", "A insônia deu trégua.")                    // minúscula
+  nota("2026-09-11", "Dormi mal, sem insonia mas inquieto.")     // sem acento
+  nota("2026-09-12", "Dia comum.")                               // não casa
+
+  t("acha a palavra capitalizada que o grep perdia", () => {
+    const r = buscar(v, ["insônia"])
+    if (!r.achados.some((a) => a.data === "2026-09-08")) throw new Error("perdeu a maiúscula")
+  })
+  t("acha a forma sem acento", () => {
+    if (!buscar(v, ["insônia"]).achados.some((a) => a.data === "2026-09-11")) throw new Error("perdeu a sem acento")
+  })
+  t("acha as três, não menos", () => eq(buscar(v, ["insônia"]).total, 3, "total"))
+  t("não casa nota que não fala do assunto", () => {
+    if (buscar(v, ["insônia"]).achados.some((a) => a.data === "2026-09-12")) throw new Error("falso positivo")
+  })
+  t("ignora frontmatter e títulos", () => {
+    // `tag: insonia` no frontmatter não é a pessoa falando do assunto
+    if (buscar(v, ["insonia"]).achados.some((a) => a.linha.startsWith("tag:"))) throw new Error("casou frontmatter")
+  })
+  t("termo inexistente devolve zero, não um palpite", () => eq(buscar(v, ["jabuticaba"]).total, 0, "total"))
+  t("achados vêm em ordem cronológica", () => {
+    const d = buscar(v, ["insônia"]).achados.map((a) => a.data)
+    eq(d.join(","), [...d].sort().join(","), "ordem")
+  })
+}
+
 console.log("\nsituação — o que o Panda sabe antes de perguntarem")
 {
   const v = vaultGabarito()
@@ -265,7 +298,7 @@ console.log("\nplugin — o que ele injeta no OpenCode")
     await (await panda({ directory: raiz })).config(meu)
     eq(meu.agent.panda.prompt, "meu", "prompt")
   })
-  t("registra a ferramenta de hábitos", () => eq(Object.keys(h.tool).join(), "panda_habitos", "tools"))
+  t("registra as duas ferramentas", () => eq(Object.keys(h.tool).sort().join(","), "panda_buscar,panda_habitos", "tools"))
 
   // A escotilha de saída: comandos que a própria pessoa pediu via /ajustar.
   // Moram no vault e precisam funcionar mesmo abrindo o OpenCode na pasta de cima —
@@ -344,6 +377,15 @@ console.log("\ncomandos e agente — o que não pode voltar")
   t("nenhum comando com nome em inglês", () => {
     const ingles = cmds.filter((f) => !/^(ajustar|diario|habitos|lembrar|planejar|revisar|setup)\.md$/.test(f))
     if (ingles.length) throw new Error(`fora do padrão pt-BR: ${ingles.join(", ")}`)
+  })
+  t("o agente ignora maiúsculas mesmo fora do /lembrar", () => {
+    // Ninguém digita /lembrar pra perguntar "quando falei disso?". A pergunta vem
+    // solta, e sem esta regra a busca conversacional perde as palavras que iniciam
+    // frase — e o modelo narra por cima do buraco.
+    // A regra virou ferramenta: dizer "ignore a caixa" no prompt não bastou — o
+    // modelo continuou buscando `insônia` e perdendo `Insônia` em dois testes.
+    if (!/panda_buscar/.test(agente)) throw new Error("o agente não manda usar a ferramenta de busca")
+    if (!/[Nn]ão preencha o buraco/.test(agente)) throw new Error("sumiu a regra de não deduzir o vão")
   })
   t("/lembrar manda ignorar maiúsculas na busca", () => {
     // Em português toda palavra que inicia frase é capitalizada; buscar só a forma

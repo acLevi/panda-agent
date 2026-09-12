@@ -26,14 +26,15 @@ possível deste comando.
 1. **Entenda o recorte.** É um período ("setembro", "as duas últimas semanas"), um tema ("joelho",
    "entrevista", "meu chefe"), ou os dois? Na dúvida sobre o período, procure em tudo.
 
-2. **Busque de verdade, não por amostragem.** Use a ferramenta de busca por conteúdo em toda a
-   pasta de notas — nunca abra "algumas notas recentes" e conclua a partir delas. Uma resposta
-   baseada nas 5 notas que você por acaso leu é pior que nenhuma, porque parece completa.
+2. **Busque de verdade, não por amostragem.** Nunca abra "algumas notas recentes" e conclua a
+   partir delas: uma resposta baseada nas 5 notas que você por acaso leu é pior que nenhuma, porque
+   parece completa.
 
-3. **Busque ignorando maiúsculas e minúsculas.** Isto não é detalhe: em português, toda palavra
-   que começa uma frase aparece capitalizada. Buscar `enxaqueca` e não achar `Enxaqueca` faz você
-   dizer "aconteceu 2 vezes" quando foram 3 — errado, e com cara de certo. Se a sua ferramenta de
-   busca tiver a opção de ignorar caixa, ligue-a sempre; se não tiver, procure as duas formas.
+3. **Use a ferramenta `panda_buscar`**, sempre — não o grep na mão. Ela varre todas as notas
+   ignorando maiúsculas e acentos e devolve os trechos com data. Isto não é detalhe: em português
+   toda palavra que começa uma frase é capitalizada, e buscar `enxaqueca` sem achar `Enxaqueca` faz
+   você dizer "aconteceu 2 vezes" quando foram 3 — errado, e com cara de certo. Quando ela diz que
+   não achou nada, é busca completa, não amostra: pode afirmar que não há registro.
 
 4. **Busque as variações.** Quem escreve diário não usa sempre a mesma palavra: "joelho" pode
    aparecer como "perna", "lesão", "fisio". Tente duas ou três formas antes de concluir que não

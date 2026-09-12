@@ -10,6 +10,7 @@ import { fileURLToPath } from "node:url"
 
 import { calcularHabitos, formatarParaOModelo, descobrirBase, pastaDoDiario } from "./habitos.js"
 import { situacao, pareceProjeto } from "./situacao.js"
+import { buscar, formatar as formatarBusca } from "./busca.js"
 import { separar } from "./markdown.js"
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), "..")
@@ -140,6 +141,24 @@ export const panda = async (entrada) => {
   tool: {
     // Sem argumentos de propósito: a ferramenta entrega os números da última
     // semana, e o modelo recorta e formata. Isso também evita depender de zod.
+    // Busca sem argumento não dá: o termo é a pergunta. Mas o formato é uma
+    // string simples separada por vírgula, o que evita depender de zod.
+    panda_buscar: {
+      description:
+        "Procura termos em TODAS as notas, ignorando maiúsculas e acentos. Use sempre que a pessoa " +
+        "perguntar sobre o próprio passado — inclusive em conversa solta, sem comando. Devolve os " +
+        "trechos com data. Buscar à mão erra: 'Insônia' no início de uma frase não casa com 'insônia'.",
+      args: { termos: { type: "string", description: "termos separados por vírgula, incluindo variações" } },
+      async execute(args, ctx) {
+        const base = descobrirBase(ctx.directory)
+        if (!base) return "Não encontrei as notas: nem esta pasta nem `panda/` têm um diário."
+        const termos = String(args?.termos ?? "").split(",").map((t) => t.trim()).filter(Boolean)
+        if (!termos.length) return "Preciso de pelo menos um termo pra buscar."
+        const r = buscar(base, termos)
+        return { title: `Busca: ${termos.join(", ")}`, output: formatarBusca(r), metadata: { total: r.total } }
+      },
+    },
+
     panda_habitos: {
       description:
         "Calcula os hábitos das notas diárias: marcas dia a dia dos últimos 7 dias, " +
