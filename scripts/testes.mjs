@@ -371,6 +371,11 @@ console.log("\ncomandos e agente — o que não pode voltar")
     })
     if (ruins.length) throw new Error(`frontmatter incompleto: ${ruins.join(", ")}`)
   })
+  t("o agente proíbe deduzir o gênero pelo nome", () => {
+    // O prompt diz "a pessoa... ela" porque "pessoa" é feminino em português.
+    // Sem esta regra, o modelo pode espelhar isso e tratar todo mundo no feminino.
+    if (!/[Nn]unca deduza pelo nome/.test(agente)) throw new Error("sumiu a regra de concordância")
+  })
   t("o agente proíbe deduzir a data", () => contem(agente, "deduza a data", "agente"))
   t("quem reporta hábito usa a ferramenta, não conta à mão", () => {
     const devem = ["habitos.md", "revisar.md"]
