@@ -8,7 +8,7 @@
 
 import { readFileSync, readdirSync, existsSync } from "node:fs"
 import { join } from "node:path"
-import { calcularHabitos } from "./habitos.js"
+import { calcularHabitos, pastaDoDiario } from "./habitos.js"
 
 const DIA_MS = 86400000
 const SEMANA = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"]
@@ -26,7 +26,7 @@ function notaDe(base, data) {
     }
     return null
   }
-  return anda(join(base, "Diário"), 0)
+  return anda(pastaDoDiario(base), 0)
 }
 
 /** Datas de todas as notas diárias, em ordem. */
@@ -41,7 +41,7 @@ function datasDasNotas(base) {
       else if (/^\d{4}-\d{2}-\d{2}\.md$/.test(it.name)) datas.push(it.name.slice(0, 10))
     }
   }
-  const raiz = join(base, "Diário")
+  const raiz = pastaDoDiario(base)
   if (existsSync(raiz)) anda(raiz, 0)
   return datas.sort()
 }

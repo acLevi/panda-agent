@@ -10,7 +10,7 @@
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync, existsSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
-import { calcularHabitos, descobrirBase, formatarParaOModelo } from "../plugin/habitos.js"
+import { calcularHabitos, descobrirBase, formatarParaOModelo, pastaDoDiario } from "../plugin/habitos.js"
 import { situacao } from "../plugin/situacao.js"
 import { separar, valorDeHabito } from "../plugin/markdown.js"
 import { panda } from "../plugin/index.js"
@@ -140,6 +140,34 @@ console.log("\npasta-base — a pessoa abre onde o OpenCode abriu")
   mkdirSync(join(casa, "panda", "Diário"), { recursive: true })
   t("acha panda/ a partir da pasta de cima", () => eq(descobrirBase(casa), join(casa, "panda"), "base"))
   t("acha o próprio diretório quando ele é o vault", () => eq(descobrirBase(v), v, "base"))
+}
+
+console.log("\npasta do diário — quem trouxe um vault que já existia")
+{
+  const iso = dia(0)
+  const variantes = [
+    ["diario/ minúsculo sem acento", "diario/2026/09", null],
+    ["Journal/ (vault em inglês)", "Journal", null],
+    ["Daily/", "Daily/2026", null],
+    ["nome livre, declarado no config", "MinhasNotas", { pasta_diario: "MinhasNotas" }],
+    ["Diário/ padrão", "Diário/2026/09", null],
+    ["subpasta a mais (semana-3)", "Diário/2026/09/semana-3", null],
+  ]
+  let k = 0
+  for (const [nome, dir, cfg] of variantes) {
+    const v = join(raiz, `pasta-${k++}`)
+    mkdirSync(join(v, "Templates"), { recursive: true })
+    mkdirSync(join(v, ".panda"), { recursive: true })
+    mkdirSync(join(v, dir), { recursive: true })
+    writeFileSync(join(v, "Templates", "Diário.md"), "---\ndate: x\nagua: false\n---")
+    if (cfg) writeFileSync(join(v, ".panda", "config.json"), JSON.stringify(cfg))
+    writeFileSync(join(v, dir, `${iso}.md`), "---\nagua: true\n---")
+    t(nome, () => eq(calcularHabitos(v, 7).linhas[0].feitos, 1, "achou a nota"))
+  }
+  t("o bloco informa a pasta do diário, não só a base", () => {
+    const v = join(raiz, "pasta-0")
+    if (!pastaDoDiario(v).endsWith("diario")) throw new Error("não detectou diario/")
+  })
 }
 
 console.log("\nsituação — o que o Panda sabe antes de perguntarem")

@@ -16,9 +16,35 @@ const DIA_MS = 86400000
 const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
 const ddmm = (s) => `${s.slice(8, 10)}/${s.slice(5, 7)}`
 
-/** Todo arquivo AAAA-MM-DD.md sob Diário/, indexado por data. */
+/**
+ * A pasta do diário. Normalmente `Diário/`, mas quem adota um vault que já existe
+ * pode ter `diario/`, `Journal/` ou outro nome — e o /setup promete se adaptar.
+ * Sem isto, os hábitos dessa pessoa sumiriam em silêncio.
+ */
+export function pastaDoDiario(base) {
+  // 1. o que o config.json disser vence
+  try {
+    const cfg = JSON.parse(readFileSync(join(base, ".panda", "config.json"), "utf8"))
+    if (typeof cfg.pasta_diario === "string" && existsSync(join(base, cfg.pasta_diario))) {
+      return join(base, cfg.pasta_diario)
+    }
+  } catch { /* sem config ou config quebrado: segue pro palpite */ }
+
+  // 2. senão, procura um nome equivalente, ignorando maiúscula e acento
+  const alvo = ["diario", "journal", "daily", "notasdiarias"]
+  const normal = (t) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+  try {
+    for (const it of readdirSync(base, { withFileTypes: true })) {
+      if (it.isDirectory() && alvo.includes(normal(it.name))) return join(base, it.name)
+    }
+  } catch { /* base ilegível */ }
+
+  return join(base, "Diário")
+}
+
+/** Todo arquivo AAAA-MM-DD.md sob a pasta do diário, indexado por data. */
 function notasDiarias(base) {
-  const raiz = join(base, "Diário")
+  const raiz = pastaDoDiario(base)
   const achadas = new Map()
   const anda = (dir, nivel) => {
     let itens
@@ -146,7 +172,7 @@ export function formatarParaOModelo(r) {
 /** A pasta-base: a atual, ou `panda/` dentro dela. Mesma regra do agente. */
 export function descobrirBase(dir) {
   for (const c of [dir, join(dir, "panda")]) {
-    if (existsSync(join(c, ".panda", "PERFIL.md")) || existsSync(join(c, "Diário"))) return c
+    if (existsSync(join(c, ".panda", "PERFIL.md")) || existsSync(pastaDoDiario(c))) return c
   }
   return null
 }

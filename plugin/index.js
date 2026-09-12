@@ -8,7 +8,7 @@ import { readFileSync, readdirSync } from "node:fs"
 import { dirname, join, relative, sep } from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { calcularHabitos, formatarParaOModelo, descobrirBase } from "./habitos.js"
+import { calcularHabitos, formatarParaOModelo, descobrirBase, pastaDoDiario } from "./habitos.js"
 import { situacao } from "./situacao.js"
 import { separar } from "./markdown.js"
 
@@ -92,9 +92,13 @@ export const panda = async (entrada) => {
         cache = { texto: situacao(base), quando: agora, base }
       }
       const rel = base === diretorioAtual ? "." : relative(diretorioAtual, base).split(sep).join("/")
+      // O vault dela pode chamar o diário de `diario/` ou `Journal/`. Sem dizer qual é,
+      // o comando criaria uma pasta paralela e as notas ficariam em dois lugares.
+      const relDiario = relative(diretorioAtual, pastaDoDiario(base)).split(sep).join("/")
       output.system.push(
         "## Situação atual (calculado, não inferido)\n\n" +
           `Pasta-base das notas: \`${rel}\` — use este prefixo em todo caminho; não precisa procurar.\n` +
+          `Pasta do diário: \`${relDiario}\` — as notas do dia vão aqui, não em outro lugar.\n` +
           cache.texto +
           "\n\nSão fatos exatos, apurados agora a partir das notas. Use-os como estão — " +
           "principalmente a data de hoje, que você não deve deduzir. O quanto comentar isso " +

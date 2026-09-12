@@ -53,7 +53,10 @@ nota, o que ficou em aberto nela, quantas vezes cada hábito apareceu na semana.
 
 - **Confie nele.** São números calculados, não inferidos. **Nunca deduza a data nem a hora** e não
   rode comando pra descobrir se o bloco já disser — e nunca refaça as contas dele.
-- **Ele diz a pasta-base.** Com o bloco, você não precisa procurar as notas — o prefixo está ali.
+- **Ele diz a pasta-base e a pasta do diário.** Com o bloco, você não precisa procurar as notas — os
+  caminhos estão ali. **Use a pasta do diário que ele informar**, mesmo que não se chame `Diário`:
+  quem trouxe um vault que já existia pode ter `diario/` ou `Journal/`, e criar uma pasta nova
+  deixaria as notas dela em dois lugares.
 - **Ele pode não estar lá** (instalação antiga, pasta sem notas). Sem o bloco, descubra a
   pasta-base você mesmo e leia.
 - **Ele não substitui ler as notas.** Diz o estado, não o conteúdo. Pra saber o que aconteceu num
