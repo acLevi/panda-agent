@@ -423,6 +423,19 @@ console.log("\ncomandos e agente — o que não pode voltar")
       .filter(([, t]) => /\/(journal|plan|review|progress)(?![a-z-])/.test(t)).map(([f]) => f)
     if (mortos.length) throw new Error(`cita comando extinto: ${mortos.join(", ")}`)
   })
+  t("o config de referência mostra todas as chaves que o plugin lê", () => {
+    // A referência mostrava só idioma e obsidian enquanto o plugin já lia mais três.
+    // Quem lesse concluiria que hábito não mora ali.
+    const ref = JSON.parse(readFileSync(new URL("../perfil-modelo/config.json", import.meta.url).pathname, "utf8"))
+    const lidas = ["habitos", "pasta_diario", "template_diario", "idioma", "obsidian"]
+    const faltando = lidas.filter((k) => !(k in ref))
+    if (faltando.length) throw new Error(`referência sem: ${faltando.join(", ")}`)
+  })
+  t("o perfil de referência é escrito na voz da pessoa", () => {
+    // É um documento dela sobre ela: "no meu lugar", nunca "no lugar dele".
+    const perfil = readFileSync(new URL("../perfil-modelo/PERFIL.md", import.meta.url).pathname, "utf8")
+    if (/\b(no lugar dele|que ele não pediu)\b/.test(perfil)) throw new Error("terceira pessoa no perfil")
+  })
   t("perfil-modelo não derivou do que o /setup gera", () => {
     const setup = readFileSync(join(dir, "setup.md"), "utf8")
     const modelo = new URL("../perfil-modelo/", import.meta.url).pathname
@@ -449,6 +462,20 @@ console.log("\ncomandos e agente — o que não pode voltar")
     if (!/[Nn]unca deduza pelo nome/.test(agente)) throw new Error("sumiu a regra de concordância")
   })
   t("o agente proíbe deduzir a data", () => contem(agente, "deduza a data", "agente"))
+  t("uma notação só para o caminho da nota diária", () => {
+    // `<MÊS>` não diz se é `09` ou `setembro`. Havia três notações diferentes
+    // para o mesmo caminho, e a ambiguidade só apareceria em produção.
+    const tudo = [agente, ...cmds.map((f) => readFileSync(join(dir, f), "utf8"))].join("\n")
+    for (const ruim of ["<MÊS>", "<ANO-MÊS-DIA>"]) {
+      if (tudo.includes(ruim)) throw new Error(`notação ambígua de volta: ${ruim}`)
+    }
+  })
+  t("todo comando que grava fala em confirmar", () => {
+    // /lembrar é o único que não grava — e por isso é o único isento.
+    const gravam = cmds.filter((f) => f !== "lembrar.md")
+    const mudos = gravam.filter((f) => !/confirm|peça permissão|pergunt/i.test(readFileSync(join(dir, f), "utf8")))
+    if (mudos.length) throw new Error(`gravam sem falar de confirmação: ${mudos.join(", ")}`)
+  })
   t("quem reporta hábito usa a ferramenta, não conta à mão", () => {
     const devem = ["habitos.md", "revisar.md"]
     const sem = devem.filter((f) => !readFileSync(join(dir, f), "utf8").includes("panda_habitos"))

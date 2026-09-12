@@ -75,7 +75,10 @@ Em `Dados/Hábitos.md`, **entre os marcadores**:
 
 - Se os marcadores já existirem, **substitua só o que está entre eles** e preserve todo o resto do
   arquivo — inclusive o que ela escreveu à mão.
-- Se não existirem, acrescente o bloco ao fim do arquivo, com os marcadores.
+- Se não existirem, **peça permissão antes** de acrescentar: é a primeira vez que você põe conteúdo
+  seu num arquivo que pode ser dela. "Posso acrescentar o painel no fim do seu `Dados/Hábitos.md`?"
+  Depois que os marcadores existirem, regenerar é seu território e **não precisa perguntar de
+  novo** — perguntar toda vez transformaria um painel automático em burocracia.
 - Nunca reescreva o arquivo inteiro.
 - Acrescente, dentro do bloco, uma linha dizendo quando o painel foi gerado e que ele é
   regenerado com `/habitos` — assim ninguém tenta atualizar na mão.

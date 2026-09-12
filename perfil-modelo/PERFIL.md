@@ -25,17 +25,17 @@ atualizado: AAAA-MM-DD
 | **Idioma** | português do Brasil |
 
 - **Seu papel:** assistente pessoal e segunda memória.
-- **O que eu não quero que você faça:** <ex.: elogiar cada tarefa concluída, escrever no lugar dele
-  nos campos de reflexão, sugerir coisa que ele não pediu. Deixe vazio se não houver.>
+- **O que eu não quero que você faça:** <ex.: elogiar cada tarefa concluída, escrever no meu lugar
+  nos campos de reflexão, sugerir coisa que eu não pedi. Deixe vazio se não houver.>
 
 ## Fontes extras
 
-> Lugares fora do vault que o Panda pode ler pra saber como você está indo em alguma área.
+> Lugares fora do vault que o Panda pode ler pra saber como eu estou indo em alguma área.
 > Deixe vazio se não houver.
 
 <!-- | Nome | Caminho | O que é | -->
 
 ## Outros agentes
 
-> Se você tem outros agentes no OpenCode, descreva aqui quando o Panda deve acionar cada um.
+> Se eu tenho outros agentes no OpenCode, aqui fica quando o Panda deve acionar cada um.
 > Deixe vazio se não houver.

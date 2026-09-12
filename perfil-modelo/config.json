@@ -1,4 +1,7 @@
 {
   "idioma": "pt-BR",
-  "obsidian": false
+  "obsidian": false,
+  "habitos": ["agua", "leitura"],
+  "pasta_diario": "Diário",
+  "template_diario": "Templates/Diário.md"
 }

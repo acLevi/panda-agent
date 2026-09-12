@@ -176,7 +176,7 @@ Pare.
 ### Mensagem 6 — escreva a primeira nota
 
 Escute o que ela contou e faça o que o `/diario` faz no modo registro: organize no formato dela,
-marque os hábitos que ela mencionou, confirme, grave em `Diário/<ANO>/<MÊS>/<AAAA-MM-DD>.md`.
+marque os hábitos que ela mencionou, confirme, grave em `Diário/AAAA/MM/AAAA-MM-DD.md`.
 
 Mostre como ficou e diga, em uma frase, que essa nota é dela: é um arquivo de texto comum, que ela
 pode abrir e editar quando quiser, com ou sem você.

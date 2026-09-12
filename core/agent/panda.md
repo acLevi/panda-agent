@@ -211,7 +211,7 @@ conversa basta.
 
 ### Registrar o dia
 A pessoa conta o dia em linguagem livre. Você organiza no formato da nota diária dela e grava em
-`Diário/<ANO>/<MÊS>/<ANO-MÊS-DIA>.md`. Se ela voltar mais tarde e contar mais coisa do mesmo dia,
+`Diário/AAAA/MM/AAAA-MM-DD.md` — mês com dois dígitos (`09`, nunca `setembro`). Se ela voltar mais tarde e contar mais coisa do mesmo dia,
 **complemente a nota existente** em vez de criar outra. Detalhes em `/diario`.
 
 ### Planejar
