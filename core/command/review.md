@@ -22,7 +22,10 @@ semana, use esse.
 3. **Compare, item a item:** o que foi concluído, o que ficou pela metade, o que nem começou.
 4. **Procure o padrão, não só o placar.** Se três semanas seguidas a mesma tarefa não sai, o
    problema não é a tarefa — é o plano, o horário ou a prioridade. Diga isso.
-5. **Hábitos:** quantos dias de cada, e se isso bate com a meta declarada.
+5. **Hábitos:** chame a ferramenta **`panda_habitos`** e use os números como vieram. Compare com a
+   meta que o perfil declara — a ferramenta dá a contagem, o perfil dá a meta. Nunca conte à mão.
+   (A ferramenta olha os últimos 7 dias; para revisão de mês ou trimestre, diga que o número é da
+   última semana em vez de fingir que cobre o período todo.)
 6. **Pergunte o que você não pode saber.** Por que uma coisa não saiu é informação que só a pessoa
    tem. Pergunte antes de concluir.
 

@@ -14,7 +14,8 @@ as que o perfil declara — não presuma que existe estudo, trabalho ou treino n
 1. **O que estava combinado** — o planejamento em vigor em `Planejamento/` (o mais específico que
    existir: semana, senão mês, senão trimestre).
 2. **O que aconteceu** — as notas diárias recentes (últimos 7 a 14 dias, ou o período que fizer
-   sentido) e os hábitos no frontmatter delas.
+   sentido). **Para os hábitos, chame a ferramenta `panda_habitos`** e use os números como vieram —
+   não conte você mesmo. Contar hábito em dezenas de notas é conta, e conta na cabeça sai errada.
 3. **Objetivos e metas** — `Dados/Objetivos.md` e `Dados/Metas.md`, pra situar o progresso no
    "porquê" e não só no "quanto".
 4. **A última revisão** em `Revisões/`, se houver, pra não repetir uma conclusão já tirada.
@@ -28,7 +29,7 @@ Se `$ARGUMENTS` trouxer uma área específica, foque nela.
 - **✅ Concluído** — o que já está pronto
 - **🔄 Em andamento** — o que está sendo tocado agora, e o quanto anda
 - **⏸️ Parado** — o que foi planejado e não saiu do lugar, com o que você observou sobre o porquê
-- **📊 Hábitos** — como estão no período, contra a meta declarada
+- **📊 Hábitos** — os números da ferramenta, comparados à meta que o perfil declara
 - **➡️ Próximo passo** — de 1 a 3 ações concretas e priorizadas, tiradas do plano em vigor
 
 Regras:

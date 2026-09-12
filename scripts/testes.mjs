@@ -160,6 +160,11 @@ console.log("\ncomandos e agente — o que não pode voltar")
     if (ruins.length) throw new Error(`frontmatter incompleto: ${ruins.join(", ")}`)
   })
   t("o agente proíbe deduzir a data", () => contem(agente, "deduza a data", "agente"))
+  t("quem reporta hábito usa a ferramenta, não conta à mão", () => {
+    const devem = ["habitos.md", "progress.md", "review.md"]
+    const sem = devem.filter((f) => !readFileSync(join(dir, f), "utf8").includes("panda_habitos"))
+    if (sem.length) throw new Error(`contam hábito sem a ferramenta: ${sem.join(", ")}`)
+  })
 }
 
 rmSync(raiz, { recursive: true, force: true })
