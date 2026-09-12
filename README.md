@@ -94,3 +94,15 @@ do vault dela.
 **2. O `plugin/index.js` nunca contém cópia de prompt.** Ele lê os `.md` em tempo de execução. Se
 o prompt for duplicado dentro do JS, o modo de desenvolvimento e o de distribuição passam a
 entregar coisas diferentes.
+
+## Testes
+
+```bash
+node scripts/testes.mjs      # determinístico, segundos, sem modelo e sem rede
+```
+
+34 verificações sobre o que dá pra afirmar com certeza: as contas dos hábitos contra gabarito
+calculado à parte, a descoberta da pasta-base, o que o plugin injeta, o comportamento com vault
+vazio, e as regressões que não podem voltar — dado pessoal no core, receita de shell no `/habitos`.
+
+Qualidade de conversa não está aqui e não dá pra estar. Pra isso, `scripts/teste-limpo.sh`.
